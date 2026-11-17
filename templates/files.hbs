@@ -2,12 +2,13 @@
   {{#if (eq view "trash")}}
   <div class="df-trash-head">
     <h3><i class="fa-solid fa-trash-can" inert></i> {{localize "DIMANCER_FILES.Trash.Title"}}</h3>
-    <p class="hint">{{localize "DIMANCER_FILES.Trash.Hint"}}</p>
-    {{#if trash.length}}
+    <p class="hint">{{localize "DIMANCER_FILES.Trash.Hint"}}
+      {{#unless canPurge}}{{localize "DIMANCER_FILES.Trash.ServerOnly"}}{{/unless}}</p>
+    {{#if trash.length}}{{#if canPurge}}
     <button type="button" class="df-text df-danger" data-action="dfEmptyTrash">
       <i class="fa-solid fa-dumpster" inert></i> {{localize "DIMANCER_FILES.Trash.Empty"}}
     </button>
-    {{/if}}
+    {{/if}}{{/if}}
   </div>
   {{#if trash.length}}
   <ol class="df-trash">
@@ -21,9 +22,11 @@
       <button type="button" class="df-text" data-action="dfRestore" data-id="{{id}}">
         <i class="fa-solid fa-rotate-left" inert></i> {{localize "DIMANCER_FILES.Trash.Restore"}}
       </button>
+      {{#if @root.canPurge}}
       <button type="button" class="df-icon df-danger" data-action="dfPurge" data-id="{{id}}" data-tooltip="DIMANCER_FILES.Trash.Purge">
         <i class="fa-solid fa-xmark" inert></i>
       </button>
+      {{/if}}
     </li>
     {{/each}}
   </ol>

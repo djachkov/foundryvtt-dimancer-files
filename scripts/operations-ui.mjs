@@ -110,10 +110,12 @@ export async function deleteEntries(app, paths) {
     window: { title: "DIMANCER_FILES.Delete.Title", icon: "fa-solid fa-trash" },
     position: { width: 480 },
     content: `<p>${loc("DIMANCER_FILES.Delete.Prompt", { n: paths.length })}</p>${nameList(paths)}${usageHTML}
-      <label class="df-check"><input type="checkbox" name="permanent"> ${loc("DIMANCER_FILES.Delete.Permanent")}</label>`,
+      ${companion.policy.permanent
+        ? `<label class="df-check"><input type="checkbox" name="permanent"> ${loc("DIMANCER_FILES.Delete.Permanent")}</label>`
+        : `<p class="hint">${loc("DIMANCER_FILES.Delete.TrashOnly")}</p>`}`,
     buttons: [
       { action: "delete", label: "DIMANCER_FILES.Delete.Button", icon: "fa-solid fa-trash", default: true,
-        callback: (_e, button) => (button.form.elements.permanent.checked ? "permanent" : "trash") },
+        callback: (_e, button) => (button.form.elements.permanent?.checked ? "permanent" : "trash") },
       { action: "cancel", label: "Cancel", icon: "fa-solid fa-xmark" }
     ],
     rejectClose: false

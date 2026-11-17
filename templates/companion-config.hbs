@@ -1,26 +1,43 @@
 <section class="dimancer-files-companion-form">
-  <p class="hint">{{localize "DIMANCER_FILES.Companion.Explain"}}</p>
+  <p class="hint">{{localize "DIMANCER_FILES.Companion.Explain"}} <a href="{{repo}}" target="_blank" rel="noopener">{{repo}}</a></p>
   <div class="form-group">
     <label>{{localize "DIMANCER_FILES.Companion.Url"}}</label>
-    <div class="form-fields"><input type="text" name="url" value="{{url}}" placeholder="{{placeholder}}"></div>
-    <p class="hint">{{localize "DIMANCER_FILES.Companion.UrlHint"}}</p>
-  </div>
-  <div class="form-group">
-    <label>{{localize "DIMANCER_FILES.Companion.Token"}}</label>
     <div class="form-fields">
-      <input type="password" name="token" value="{{token}}" autocomplete="off">
-      <button type="button" class="icon fa-solid fa-eye" data-action="reveal" data-tooltip="DIMANCER_FILES.Companion.Reveal"></button>
+      <input type="text" name="url" value="{{url}}" placeholder="{{placeholder}}">
+      <button type="button" data-action="test"><i class="fa-solid fa-plug"></i> {{localize "DIMANCER_FILES.Companion.Test"}}</button>
     </div>
-    <p class="hint">{{localize "DIMANCER_FILES.Companion.TokenHint"}}</p>
+    <p class="hint">{{localize "DIMANCER_FILES.Companion.UrlHint"}}</p>
   </div>
   <div class="form-group">
     <label>{{localize "DIMANCER_FILES.Companion.Status"}}</label>
     <div class="form-fields">
       {{#if status}}
-        {{#if status.ok}}<span class="df-ok"><i class="fa-solid fa-circle-check"></i> {{localize "DIMANCER_FILES.Companion.Connected" version=status.version}}</span>
+        {{#if status.ok}}<span class="df-ok"><i class="fa-solid fa-circle-check"></i> {{localize "DIMANCER_FILES.Companion.Reachable"}}</span>
         {{else}}<span class="df-bad"><i class="fa-solid fa-circle-xmark"></i> {{status.error}}</span>{{/if}}
       {{else}}<span>—</span>{{/if}}
-      <button type="button" data-action="test"><i class="fa-solid fa-plug"></i> {{localize "DIMANCER_FILES.Companion.Test"}}</button>
     </div>
   </div>
+
+  {{#if session}}
+  <div class="form-group">
+    <label>{{localize "DIMANCER_FILES.Companion.Login"}}</label>
+    <div class="form-fields">
+      <span class="df-ok"><i class="fa-solid fa-lock-open"></i> {{localize "DIMANCER_FILES.Companion.LoggedIn" until=session.until version=session.version}}</span>
+      <button type="button" data-action="logout"><i class="fa-solid fa-right-from-bracket"></i> {{localize "DIMANCER_FILES.Companion.Logout"}}</button>
+    </div>
+    <p class="hint">
+      {{#if session.policy.permanent}}{{localize "DIMANCER_FILES.Companion.PolicyPermanent"}}{{else}}{{localize "DIMANCER_FILES.Companion.PolicyTrash"}}{{/if}}
+      {{#if session.roots}} {{localize "DIMANCER_FILES.Companion.PolicyRoots" roots=session.roots}}{{/if}}
+    </p>
+  </div>
+  {{else}}
+  <div class="form-group">
+    <label>{{localize "DIMANCER_FILES.Companion.Secret"}}</label>
+    <div class="form-fields">
+      <input type="password" name="secret" autocomplete="off" placeholder="{{localize "DIMANCER_FILES.Companion.SecretPlaceholder"}}">
+      <button type="button" data-action="login"><i class="fa-solid fa-right-to-bracket"></i> {{localize "DIMANCER_FILES.Companion.LoginButton"}}</button>
+    </div>
+    <p class="hint">{{localize "DIMANCER_FILES.Companion.SecretHint"}}</p>
+  </div>
+  {{/if}}
 </section>

@@ -38,7 +38,7 @@ Requires Foundry VTT v14. It works with any game system.
 
 **With the companion (GM only):**
 
-- **Delete.** Files and folders go to a trash by default, with Restore. Permanent delete asks twice. The dialog warns when documents still use the files.
+- **Delete.** Files and folders go to the trash, with Restore. Permanent delete, when the server allows it, asks twice. The dialog warns when documents still use the files.
 - **Folders in the tree:** right-click for New folder inside, Rename, Delete, Copy path and Where is it used?. Double-click a folder to rename it in place (Enter saves, Escape cancels).
 - **Rename** (F2) and **move**, by dragging onto a folder (in the list, the tree or the breadcrumbs) or with Move to…. After a rename or move it offers to **update every document** that used the old path: tiles, tokens and their actor data, scene backgrounds, journal pages and their HTML, actor and item images, playlist sounds, settings and so on.
 - **Sort by size and date**, plus fast recursive search.
@@ -57,8 +57,13 @@ It is deliberately **not** part of this module. It runs on your server, so its c
 whenever Foundry updates a module. You install it and update it yourself, after reading what changed.
 
 Once it runs: **Game Settings → Dimancer's Files → File companion → Connect** (or the plug icon in the
-browser), enter its token, Test, Save. The token stays in that browser only. The module checks the
-companion's API version and tells you when one of them needs updating.
+browser). Set its address if it isn't behind your proxy, then **log in** with its secret, once per Foundry
+session. The secret is never saved; the login lives in that page's memory and ends on reload, logout or
+expiry. What the companion allows is set on the server, and the browser follows it: permanent delete is
+off by default (trash only), and changes can be limited to some folders.
+
+This module needs companion **0.2 or newer** (API 2). It checks the version and tells you when one of
+the two needs updating.
 
 ## Development
 

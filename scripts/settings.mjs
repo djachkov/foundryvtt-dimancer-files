@@ -63,12 +63,12 @@ export function registerSettings() {
     config: true,
     type: new foundry.data.fields.BooleanField({ initial: false })
   });
-  // Kept in this browser only: world settings are sent to every player, and this holds the token.
+  // Where the companion runs, in this browser only. No secret: logins live in memory (companion-client.mjs).
   game.settings.register(MODULE_ID, SETTINGS.companion, {
     scope: "client",
     config: false,
     type: Object,
-    default: { url: "", token: "" }
+    default: { url: "" }
   });
   game.settings.register(MODULE_ID, SETTINGS.ui, {
     scope: "client",

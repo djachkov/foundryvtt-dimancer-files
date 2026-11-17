@@ -52,11 +52,11 @@
   {{/if}}
 
   {{#if isGM}}
-  <a class="df-companion-status {{#if companion.ok}}ok{{/if}}" data-action="dfCompanion">
-    <i class="fa-solid fa-plug{{#unless companion.ok}}-circle-xmark{{/unless}}" inert></i>
-    {{#if companion.ok}}{{localize "DIMANCER_FILES.Companion.On"}}
-    {{else if companionConfigured}}{{localize "DIMANCER_FILES.Companion.Down"}}
-    {{else}}{{localize "DIMANCER_FILES.Companion.Off"}}{{/if}}
+  <a class="df-companion-status {{#if canChange}}ok{{/if}}" data-action="dfCompanion">
+    {{#if canChange}}<i class="fa-solid fa-lock-open" inert></i> {{localize "DIMANCER_FILES.Companion.On"}}
+    {{else if companionLoggedIn}}<i class="fa-solid fa-plug" inert></i> {{localize "DIMANCER_FILES.Companion.OnOtherSource"}}
+    {{else if companion.ok}}<i class="fa-solid fa-right-to-bracket" inert></i> {{localize "DIMANCER_FILES.Companion.LogInPrompt"}}
+    {{else}}<i class="fa-solid fa-plug-circle-xmark" inert></i> {{localize "DIMANCER_FILES.Companion.Off"}}{{/if}}
   </a>
   {{/if}}
 </aside>

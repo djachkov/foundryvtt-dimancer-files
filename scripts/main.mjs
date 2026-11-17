@@ -31,6 +31,8 @@ Hooks.once("init", () => {
 
 Hooks.once("ready", () => {
   foundry.applications.handlebars.loadTemplates(Object.values(TEMPLATES));
+  // 0.1 kept the companion token in browser storage; it isn't used any more, so don't leave it there.
+  companion.forgetStoredToken();
   if ( game.user.isGM ) companion.check();
   addSidebarButton(ui.sidebar?.element);
   game.modules.get(MODULE_ID).api = {

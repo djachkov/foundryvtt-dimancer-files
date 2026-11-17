@@ -70,7 +70,8 @@
       "PermanentTitle": "Delete permanently",
       "PermanentConfirm": "Delete {n} item(s) for good? They don't go to the trash and can't be restored.",
       "DoneTrash": "Moved {n} item(s) to the trash.",
-      "DonePermanent": "Deleted {n} item(s)."
+      "DonePermanent": "Deleted {n} item(s).",
+      "TrashOnly": "Items go to the trash, where they can be restored. This server doesn't allow permanent deletion from Foundry."
     },
     "Rename": {
       "Title": "Rename",
@@ -104,7 +105,8 @@
       "EmptyTitle": "Empty trash",
       "EmptyConfirm": "Delete everything in the trash for good?",
       "PurgeConfirm": "Delete {n} item(s) from the trash for good?",
-      "Purged": "Deleted {n} item(s) for good."
+      "Purged": "Deleted {n} item(s) for good.",
+      "ServerOnly": "This server only empties the trash from its command line: node server.mjs trash empty"
     },
     "Upload": {
       "Rejected": "Skipped {n} file(s) of a type that can't be uploaded here: {list}",
@@ -123,25 +125,35 @@
     },
     "Companion": {
       "Title": "File companion",
-      "Open": "Connect",
-      "Hint": "Delete, rename and move need the companion service, installed separately on the Foundry server. Connect it here (stored in this browser only).",
-      "Explain": "The companion is a small service you install separately on the Foundry server (github.com/djachkov/foundryvtt-dimancer-files-companion). Foundry itself can't delete, rename or move files. The token stays in this browser only.",
+      "Hint": "Delete, rename and move need the companion service, installed separately on the Foundry server. Set its address and log in here.",
+      "Explain": "The companion is a small service you install separately on the Foundry server. Foundry itself can't delete, rename or move files. You log in with its secret once per session: the secret is never saved, and the login ends when you reload Foundry, log out, or it expires.",
       "Url": "Address",
       "UrlHint": "Leave empty when your reverse proxy serves it at /dimancer-files on this site. For local testing, e.g. http://localhost:30001.",
-      "Token": "Token",
-      "TokenHint": "The DIMANCER_FILES_TOKEN the service was started with.",
-      "Reveal": "Show or hide",
       "Status": "Status",
       "Test": "Test",
       "Save": "Save",
-      "Connected": "Connected (companion {version})",
-      "On": "Companion connected",
-      "Down": "Companion not reachable",
+      "On": "Companion: logged in",
       "Off": "Connect the companion",
       "Timeout": "The companion didn't answer in time.",
       "Unreachable": "No companion answered at {url}. Check the Address (locally: http://localhost:30001) and that the companion's CORS_ORIGIN matches this page's address ({origin}).",
       "NotCompanion": "Something answered at {url}, but it isn't the companion. Locally, set the Address to http://localhost:30001.",
-      "Incompatible": "This companion ({version}) doesn't match this version of the module. Update it: {url}"
+      "Incompatible": "This companion doesn't match this version of the module. Update the companion (or the module): {url}",
+      "Open": "Connect",
+      "Reachable": "Companion running",
+      "Login": "Login",
+      "LoggedIn": "Logged in until {until} (companion {version})",
+      "LoggedInNote": "Logged in to the file companion {version}.",
+      "Logout": "Log out",
+      "Secret": "Secret",
+      "SecretPlaceholder": "The companion's DIMANCER_FILES_TOKEN",
+      "SecretHint": "Sent once to log in and never saved. The login lasts until you reload Foundry, log out, or the server's session time runs out.",
+      "LoginButton": "Log in",
+      "LoginNeeded": "Log in to the file companion first (plug icon in the file browser).",
+      "PolicyTrash": "Deleting moves files to the trash; this server doesn't allow permanent deletion from Foundry.",
+      "PolicyPermanent": "This server allows permanent deletion.",
+      "PolicyRoots": "Changes are limited to: {roots}.",
+      "OnOtherSource": "Companion works on User Data only",
+      "LogInPrompt": "Log in to the companion"
     },
     "Keybinding": {
       "Open": "Open the file manager"
