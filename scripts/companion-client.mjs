@@ -1,10 +1,25 @@
 /**
- * Talking to the companion service (companion/server.mjs). Only the GM's browser has the token.
+ * Talking to the companion service (a separate install: COMPANION_URL). Only the GM's browser has the token.
  */
 import { MODULE_ID } from "./constants.mjs";
 import { SETTINGS, setting } from "./settings.mjs";
 
 const CHECK_EVERY = 60_000;
+
+/** The companion HTTP API versions this module speaks (the companion's /health `api`). */
+export const COMPANION_API = [1];
+
+/** Repository of the separately installed companion service. */
+export const COMPANION_URL = "https://github.com/djachkov/foundryvtt-dimancer-files-companion";
+
+/** A health answer as a status: refuses a companion whose API this module doesn't know. */
+function healthStatus(r) {
+  if ( !COMPANION_API.includes(r?.api) ) {
+    return { ok: false, version: r?.version, at: Date.now(),
+      error: game.i18n.format("DIMANCER_FILES.Companion.Incompatible", { version: r?.version ?? "?", url: COMPANION_URL }) };
+  }
+  return { ok: true, version: r.version, at: Date.now() };
+}
 
 class CompanionClient {
   /** @type {{ok: boolean, version?: string, error?: string, at: number}|null} */
@@ -29,8 +44,7 @@ class CompanionClient {
   /** Try a URL and token without saving them. */
   async probe(config) {
     try {
-      const r = await this.request("health", null, { timeout: 4000, config });
-      return { ok: true, version: r.version, at: Date.now() };
+      return healthStatus(await this.request("health", null, { timeout: 4000, config }));
     } catch (err) {
       return { ok: false, error: err.message, at: Date.now() };
     }
@@ -58,7 +72,7 @@ class CompanionClient {
     }
     if ( !force && this.status && (Date.now() - this.status.at < CHECK_EVERY) ) return this.status;
     this.#checking ??= this.request("health", null, { timeout: 4000 })
-      .then(r => ({ ok: true, version: r.version, at: Date.now() }))
+      .then(healthStatus)
       .catch(err => ({ ok: false, error: err.message, at: Date.now() }))
       .finally(() => this.#checking = null);
     this.status = await this.#checking;

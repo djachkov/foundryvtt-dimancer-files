@@ -1,7 +1,7 @@
 # Dimancer's Files
 
-A file browser for Foundry VTT v14 that replaces the core File Picker everywhere, plus a small
-companion service that lets the GM **delete, rename and move** files and folders. Foundry's server
+A file browser for Foundry VTT v14 that replaces the core File Picker everywhere, plus support for a
+separately installed companion service that lets the GM **delete, rename and move** files and folders. Foundry's server
 can't do any of those three.
 
 ## Install
@@ -13,7 +13,7 @@ https://github.com/djachkov/foundryvtt-dimancer-files/releases/latest/download/m
 ```
 
 Enable **Dimancer's Files** in your world. Browsing, picking and uploading work right away. To
-delete, rename and move files as well, set up [the companion](#the-companion) on the server.
+delete, rename and move files as well, install [the companion](#the-companion) on the server.
 
 Requires Foundry VTT v14. It works with any game system.
 
@@ -45,110 +45,20 @@ Requires Foundry VTT v14. It works with any game system.
 
 ## The companion
 
-Foundry modules run only in the browser, and the Foundry server has no delete, rename or move. In
-v14 its only file socket actions are browse, create folder and configure path. So the companion is a
-separate small Node script (`companion/server.mjs`) that runs next to Foundry. It uses only Node
-built-ins; there is nothing to install.
+Foundry modules run only in the browser, and the Foundry server has no delete, rename or move: in v14
+its only file actions are browse, create folder and configure path. Those three come from the
+**Dimancer's Files companion**, a small Node service you install on the server yourself.
 
-```bash
-FOUNDRY_DATA=/path/to/foundrydata/Data \
-DIMANCER_FILES_TOKEN="$(openssl rand -hex 24)" \
-node /path/to/foundrydata/Data/modules/dimancer_files/companion/server.mjs
-```
+**[djachkov/foundryvtt-dimancer-files-companion](https://github.com/djachkov/foundryvtt-dimancer-files-companion)**
+covers installing it, putting it behind your reverse proxy, running it as a hardened service, and what
+it can and can't do.
 
-| Variable | Default | |
-|---|---|---|
-| `FOUNDRY_DATA` | (required) | Foundry's **Data** folder (the one holding `worlds/`, `modules/`, `systems/`) |
-| `DIMANCER_FILES_TOKEN` | (required, 16+ characters) | Shared secret; the GM enters it in Foundry |
-| `PORT` | `30001` | |
-| `HOST` | `127.0.0.1` | Keep it local and reach it through your reverse proxy |
-| `CORS_ORIGIN` | (none) | Only when the browser reaches it on a different origin, e.g. `http://localhost:30000` in local dev. Comma-separated for several; `localhost` also allows `127.0.0.1` and the other way round |
+It is deliberately **not** part of this module. It runs on your server, so its code shouldn't change
+whenever Foundry updates a module. You install it and update it yourself, after reading what changed.
 
-Module updates replace these files, so restart the companion after updating the module.
-
-**Trying it locally** (no reverse proxy): add `CORS_ORIGIN=http://localhost:30000` (your Foundry address)
-and use `http://localhost:30001` as the Address in Foundry.
-
-Then, in Foundry as GM: **Game Settings → Dimancer's Files → File companion → Connect**, or the plug
-icon in the browser. Enter the token, press Test, then Save. The token is stored in that browser only.
-It is a client setting, because world settings are sent to every player.
-
-### Behind your reverse proxy (recommended)
-
-Serve it at `/dimancer-files/` on Foundry's own site. That way it shares Foundry's HTTPS, and the
-Address field stays empty.
-
-nginx:
-
-```nginx
-location /dimancer-files/ {
-    proxy_pass http://127.0.0.1:30001/;
-    client_max_body_size 1m;
-}
-```
-
-Caddy:
-
-```caddy
-handle_path /dimancer-files/* {
-    reverse_proxy 127.0.0.1:30001
-}
-```
-
-If Foundry runs under a route prefix, the client asks for `/<prefix>/dimancer-files/…`; proxy that
-path instead. The service accepts the prefix with or without stripping.
-
-### Run it as a service
-
-systemd (`/etc/systemd/system/dimancer-files.service`). Use **the same user Foundry runs as**, or it
-can't delete the files Foundry wrote:
-
-```ini
-[Unit]
-Description=dimancer_files companion
-After=network.target
-
-[Service]
-User=foundry
-Environment=FOUNDRY_DATA=/home/foundry/foundrydata/Data
-Environment=DIMANCER_FILES_TOKEN=change-me-to-a-long-random-string
-ExecStart=/usr/bin/node /home/foundry/foundrydata/Data/modules/dimancer_files/companion/server.mjs
-Restart=on-failure
-
-[Install]
-WantedBy=multi-user.target
-```
-
-Docker, next to e.g. `felddy/foundryvtt`: mount the same data volume and use the same uid/gid:
-
-```yaml
-  dimancer-files:
-    image: node:24-alpine
-    user: "1000:1000"            # the uid:gid that owns Foundry's data
-    command: node /data/Data/modules/dimancer_files/companion/server.mjs
-    environment:
-      FOUNDRY_DATA: /data/Data
-      DIMANCER_FILES_TOKEN: change-me-to-a-long-random-string
-      HOST: 0.0.0.0              # reachable by the proxy container only; don't publish the port
-    volumes:
-      - foundry-data:/data
-```
-
-### What it refuses
-
-- **Anything outside Data**, including through symbolic links.
-- **Hidden names** (starting with `.`).
-- **Package structure:**
-  - the `worlds`, `modules` and `systems` folders and each package's folder
-  - manifests (`world.json`, `module.json`, `system.json`)
-  - a world's `data/` (its database) and `packs/`
-  - anything inside a module or system except its `storage/` folder
-- **Moves and renames that would overwrite something.**
-- **Renames that change a file's extension.**
-
-Deleted entries go to `Data/.dimancer-trash/<id>/` with a `manifest.json`. Foundry hides dot-folders,
-so the trash never shows up in any picker. Empty it from the Trash view, or delete the folder on the
-server.
+Once it runs: **Game Settings → Dimancer's Files → File companion → Connect** (or the plug icon in the
+browser), enter its token, Test, Save. The token stays in that browser only. The module checks the
+companion's API version and tells you when one of them needs updating.
 
 ## Development
 
@@ -158,9 +68,6 @@ node --test test/*.test.mjs
 
 The tests cover:
 
-- path rules
-- the companion over HTTP, against a temporary Data folder, including symlink escapes, the trash
-  round trip and move/rename collisions
 - usage matching and rewriting
 - listing, sorting and filtering
 - which picker kinds map to which "replace" setting
@@ -169,6 +76,6 @@ GitHub Actions runs these tests on every push to `main` and on pull requests (`t
 
 **Releasing:** push a version tag, e.g. `git tag v0.2.0 && git push origin v0.2.0`. `release.yml`
 runs the tests and writes the version and download URL from the tag into `module.json`. It then
-attaches `module.json` and `module.zip` to a GitHub release; the zip includes `companion/`. Foundry
+attaches `module.json` and `module.zip` to a GitHub release. Foundry
 installs and updates from `releases/latest/download/module.json`. The version in the repo's
 `module.json` is a placeholder. A release can be rebuilt for an existing tag from the Actions tab.

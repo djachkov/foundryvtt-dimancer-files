@@ -43,7 +43,7 @@
     "Selected": "{n} selected",
     "Summary": "{dirs} folders · {files} files",
     "Tips": "Double-click to open. Ctrl/Shift-click to select several. Del deletes, F2 renames, drag onto a folder to move.",
-    "CompanionTip": "To delete, rename and move files, run the companion service on the server and connect it (plug icon).",
+    "CompanionTip": "To delete, rename and move files, install the companion service on the server (see the module README) and connect it (plug icon).",
     "Ok": "OK",
     "AndMore": "…and {n} more",
     "MoreFailed": "{n} more failed (see the console).",
@@ -124,8 +124,8 @@
     "Companion": {
       "Title": "File companion",
       "Open": "Connect",
-      "Hint": "Delete, rename and move need the companion service running next to the Foundry server. Connect it here (stored in this browser only).",
-      "Explain": "The companion is a small service you run on the Foundry server (see the module README). Foundry itself can't delete, rename or move files. The token stays in this browser only.",
+      "Hint": "Delete, rename and move need the companion service, installed separately on the Foundry server. Connect it here (stored in this browser only).",
+      "Explain": "The companion is a small service you install separately on the Foundry server (github.com/djachkov/foundryvtt-dimancer-files-companion). Foundry itself can't delete, rename or move files. The token stays in this browser only.",
       "Url": "Address",
       "UrlHint": "Leave empty when your reverse proxy serves it at /dimancer-files on this site. For local testing, e.g. http://localhost:30001.",
       "Token": "Token",
@@ -140,7 +140,8 @@
       "Off": "Connect the companion",
       "Timeout": "The companion didn't answer in time.",
       "Unreachable": "No companion answered at {url}. Check the Address (locally: http://localhost:30001) and that the companion's CORS_ORIGIN matches this page's address ({origin}).",
-      "NotCompanion": "Something answered at {url}, but it isn't the companion. Locally, set the Address to http://localhost:30001."
+      "NotCompanion": "Something answered at {url}, but it isn't the companion. Locally, set the Address to http://localhost:30001.",
+      "Incompatible": "This companion ({version}) doesn't match this version of the module. Update it: {url}"
     },
     "Keybinding": {
       "Open": "Open the file manager"

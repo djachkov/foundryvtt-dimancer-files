@@ -1,4 +1,4 @@
-# Runs the unit tests (path rules, companion and usage matching; no Foundry
+# Runs the unit tests (usage matching, listing and settings logic; no Foundry
 # needed) on every push to main and on pull requests, and on demand from the Actions tab.
 
 name: Test
