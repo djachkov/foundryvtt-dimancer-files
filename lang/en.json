@@ -1,0 +1,181 @@
+{
+  "DIMANCER_FILES": {
+    "Title": "File Manager",
+    "CorePicker": "Open Foundry's file picker",
+    "Up": "Up one folder",
+    "Path": "Path",
+    "PathPlaceholder": "Path or URL",
+    "Favorite": "Add this folder to favorites",
+    "Unfavorite": "Remove from favorites",
+    "Favorites": "Favorites",
+    "Folders": "Folders",
+    "Files": "Files",
+    "Folder": "Folder",
+    "MakePrivate": "Make this folder private (only GMs and assistants see it)",
+    "MakePublic": "Make this folder visible to players",
+    "Refresh": "Refresh",
+    "Filter": "Filter this folder…",
+    "SearchAll": "Search all subfolders…",
+    "SearchSubfolders": "Search subfolders too",
+    "SearchResults": "{n} results for “{query}” in this folder and below",
+    "SearchTruncated": "(stopped early: narrow the search)",
+    "Grid": "Thumbnails",
+    "List": "Details list",
+    "TileSize": "Thumbnail size",
+    "SortDirection": "Reverse the order",
+    "NeedsCompanion": "Needs the companion service (GM)",
+    "Sort": {
+      "name": "Name",
+      "type": "Type",
+      "size": "Size",
+      "date": "Modified"
+    },
+    "NewFolder": "New folder",
+    "FolderName": "Folder name",
+    "UploadFiles": "Upload files",
+    "UploadFolder": "Upload a folder",
+    "Details": "Show or hide the details panel",
+    "ShowMore": "Show {n} more",
+    "EmptyFolder": "This folder is empty.",
+    "NoMatches": "Nothing here matches the filter.",
+    "DropHint": "Drop files or whole folders here to upload them.",
+    "Dimensions": "Dimensions",
+    "Selected": "{n} selected",
+    "Summary": "{dirs} folders · {files} files",
+    "Tips": "Double-click to open. Ctrl/Shift-click to select several. Del deletes, F2 renames, drag onto a folder to move.",
+    "CompanionTip": "To delete, rename and move files, run the companion service on the server and connect it (plug icon).",
+    "Ok": "OK",
+    "AndMore": "…and {n} more",
+    "MoreFailed": "{n} more failed (see the console).",
+    "Copied": "Copied {path}",
+    "CopiedMany": "Copied {n} paths",
+    "UsedBy": "Used by {n} document(s):",
+    "NotUsed": "No document in this world uses it.",
+    "WorldOnly": "Only world documents were checked. Turn on “Check compendiums” in the module settings to include compendiums.",
+    "Action": {
+      "Open": "Open",
+      "Select": "Select",
+      "CopyPath": "Copy path",
+      "Rename": "Rename",
+      "Move": "Move to…",
+      "Usages": "Where is it used?",
+      "Delete": "Delete"
+    },
+    "Delete": {
+      "Title": "Delete",
+      "Prompt": "Move {n} item(s) to the trash?",
+      "InUse": "{n} document(s) still use these files and will show missing images or sounds:",
+      "Permanent": "Delete permanently instead (can't be undone)",
+      "Button": "Delete",
+      "PermanentTitle": "Delete permanently",
+      "PermanentConfirm": "Delete {n} item(s) for good? They don't go to the trash and can't be restored.",
+      "DoneTrash": "Moved {n} item(s) to the trash.",
+      "DonePermanent": "Deleted {n} item(s)."
+    },
+    "Rename": {
+      "Title": "Rename",
+      "Label": "New name",
+      "Hint": "Files keep their extension.",
+      "To": "Rename <strong>{from}</strong> to <strong>{to}</strong>?"
+    },
+    "Move": {
+      "Title": "Move",
+      "Prompt": "Move {n} item(s) to:",
+      "PromptTo": "Move {n} item(s) to <strong>{dir}</strong>?",
+      "Label": "Folder",
+      "Hint": "A folder inside the Data folder, e.g. assets/maps. It must exist.",
+      "Done": "Moved {n} item(s)."
+    },
+    "Rewrite": {
+      "Label": "Update these documents to the new path",
+      "Done": "Updated {n} document(s) to the new paths.",
+      "Locked": "Skipped locked compendiums: {list}",
+      "Failed": "Couldn't update: {list}"
+    },
+    "Trash": {
+      "Title": "Trash",
+      "Hint": "Deleted files wait here until you empty the trash. It lives in the hidden Data/.dimancer-trash folder.",
+      "Empty": "Empty trash",
+      "Nothing": "The trash is empty.",
+      "Restore": "Restore",
+      "Purge": "Delete for good",
+      "RestoredOne": "Restored {path}",
+      "Restored": "Restored {n} item(s).",
+      "EmptyTitle": "Empty trash",
+      "EmptyConfirm": "Delete everything in the trash for good?",
+      "PurgeConfirm": "Delete {n} item(s) from the trash for good?",
+      "Purged": "Deleted {n} item(s) for good."
+    },
+    "Upload": {
+      "Rejected": "Skipped {n} file(s) of a type that can't be uploaded here: {list}",
+      "ConflictTitle": "Files already exist",
+      "Conflict": "{n} file(s) already exist with the same name:",
+      "KeepBoth": "Keep both",
+      "Replace": "Replace",
+      "Skip": "Skip",
+      "Progress": "Uploading {name} ({done}/{total})",
+      "Done": "Uploaded {n} file(s).",
+      "Failed": "{n} file(s) failed to upload."
+    },
+    "Error": {
+      "NothingSelected": "Select a file first.",
+      "BadFolderName": "A folder name can't contain slashes or start with a dot."
+    },
+    "Companion": {
+      "Title": "File companion",
+      "Open": "Connect",
+      "Hint": "Delete, rename and move need the companion service running next to the Foundry server. Connect it here (stored in this browser only).",
+      "Explain": "The companion is a small service you run on the Foundry server (see the module README). Foundry itself can't delete, rename or move files. The token stays in this browser only.",
+      "Url": "Address",
+      "UrlHint": "Leave empty when your reverse proxy serves it at /dimancer-files on this site. For local testing, e.g. http://localhost:30001.",
+      "Token": "Token",
+      "TokenHint": "The DIMANCER_FILES_TOKEN the service was started with.",
+      "Reveal": "Show or hide",
+      "Status": "Status",
+      "Test": "Test",
+      "Save": "Save",
+      "Connected": "Connected (companion {version})",
+      "On": "Companion connected",
+      "Down": "Companion not reachable",
+      "Off": "Connect the companion",
+      "Timeout": "The companion didn't answer in time.",
+      "Unreachable": "No companion answered at {url}. Check the Address (locally: http://localhost:30001) and that the companion's CORS_ORIGIN matches this page's address ({origin}).",
+      "NotCompanion": "Something answered at {url}, but it isn't the companion. Locally, set the Address to http://localhost:30001."
+    },
+    "Keybinding": {
+      "Open": "Open the file manager"
+    },
+    "Settings": {
+      "ReplaceImages": {
+        "Name": "Use for image pickers",
+        "Hint": "Image, texture and image-or-video fields (portraits, tokens, scene backgrounds, tile images…) open this browser. Off: Foundry's own picker."
+      },
+      "ReplaceAudio": {
+        "Name": "Use for sound pickers",
+        "Hint": "Playlist sounds, ambient sounds and other audio fields."
+      },
+      "ReplaceVideo": {
+        "Name": "Use for video pickers",
+        "Hint": "Video-only fields, e.g. journal video pages."
+      },
+      "ReplaceOther": {
+        "Name": "Use for other file pickers",
+        "Hint": "Fields that take any file, text or fonts (e.g. PDF journal pages)."
+      },
+      "ReplaceFolders": {
+        "Name": "Use for folder pickers",
+        "Hint": "Fields that ask for a folder rather than a file."
+      },
+      "ReplaceTiles": {
+        "Name": "Use for the canvas Tile Browser",
+        "Hint": "Tiles tool → Browse. Drag images onto the canvas to place them as tiles at the chosen grid size."
+      },
+      "ScanCompendiums": {
+        "Name": "Check compendiums",
+        "Hint": "When looking for documents that use a file (before delete, rename or move), also load every compendium. Slower."
+      }
+    },
+    "NewFolderInside": "New folder inside",
+    "TilesHint": "Drag an image or video onto the canvas to place it as a tile (Shift: no snapping, Alt: hidden)."
+  }
+}

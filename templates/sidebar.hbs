@@ -1,0 +1,62 @@
+<aside class="df-sidebar">
+  {{#if sources.[1]}}
+  <div class="df-sources">
+    {{#each sources}}
+    <button type="button" class="df-text {{#if active}}active{{/if}}" data-action="dfSource" data-source="{{id}}">
+      <i class="{{icon}}" inert></i> {{label}}
+    </button>
+    {{/each}}
+  </div>
+  {{/if}}
+  {{#if isS3}}
+  <select name="bucket">{{selectOptions buckets selected=bucket}}</select>
+  {{/if}}
+
+  {{#if favorites.length}}
+  <h4 class="df-heading">{{localize "DIMANCER_FILES.Favorites"}}</h4>
+  <div class="df-favorites">
+    {{#each favorites}}
+    <div class="df-node {{#if active}}active{{/if}}" data-action="dfGoFavorite" data-source="{{source}}" data-path="{{path}}"
+         data-tooltip="{{source}}: {{path}}">
+      <i class="fa-solid fa-star" inert></i><span class="df-label">{{label}}</span>
+      <a class="df-remove" data-action="dfRemoveFavorite" data-key="{{key}}" aria-label="{{localize "DIMANCER_FILES.Unfavorite"}}">
+        <i class="fa-solid fa-xmark" inert></i>
+      </a>
+    </div>
+    {{/each}}
+  </div>
+  {{/if}}
+
+  <h4 class="df-heading">{{localize "DIMANCER_FILES.Folders"}}</h4>
+  <div class="df-tree">
+    <div class="df-node {{#if rootActive}}active{{/if}}" data-action="dfGo" data-path="" data-drop-dir="">
+      <i class="fa-solid fa-hard-drive" inert></i><span class="df-label">{{sourceLabel}}</span>
+    </div>
+    {{#each tree}}
+    <div class="df-node {{#if active}}active{{/if}}" style="padding-left: calc(0.75rem + {{indent}}px)"
+         data-action="dfGo" data-path="{{path}}" data-drop-dir="{{path}}" data-tooltip="{{name}}">
+      <a class="df-caret {{#if leaf}}leaf{{/if}}" data-action="dfTreeToggle" data-path="{{path}}">
+        <i class="fa-solid {{#if expanded}}fa-caret-down{{else}}fa-caret-right{{/if}}" inert></i>
+      </a>
+      <i class="fa-solid {{#if expanded}}fa-folder-open{{else}}fa-folder{{/if}}" inert></i>
+      <span class="df-label">{{name}}</span>
+      {{#if private}}<i class="fa-solid fa-lock df-private" inert></i>{{/if}}
+    </div>
+    {{/each}}
+  </div>
+
+  {{#if canChange}}
+  <div class="df-node df-trash-link {{#if (eq view "trash")}}active{{/if}}" data-action="dfTrash">
+    <i class="fa-solid fa-trash-can" inert></i><span class="df-label">{{localize "DIMANCER_FILES.Trash.Title"}}</span>
+  </div>
+  {{/if}}
+
+  {{#if isGM}}
+  <a class="df-companion-status {{#if companion.ok}}ok{{/if}}" data-action="dfCompanion">
+    <i class="fa-solid fa-plug{{#unless companion.ok}}-circle-xmark{{/unless}}" inert></i>
+    {{#if companion.ok}}{{localize "DIMANCER_FILES.Companion.On"}}
+    {{else if companionConfigured}}{{localize "DIMANCER_FILES.Companion.Down"}}
+    {{else}}{{localize "DIMANCER_FILES.Companion.Off"}}{{/if}}
+  </a>
+  {{/if}}
+</aside>

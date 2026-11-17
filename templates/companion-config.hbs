@@ -1,0 +1,26 @@
+<section class="dimancer-files-companion-form">
+  <p class="hint">{{localize "DIMANCER_FILES.Companion.Explain"}}</p>
+  <div class="form-group">
+    <label>{{localize "DIMANCER_FILES.Companion.Url"}}</label>
+    <div class="form-fields"><input type="text" name="url" value="{{url}}" placeholder="{{placeholder}}"></div>
+    <p class="hint">{{localize "DIMANCER_FILES.Companion.UrlHint"}}</p>
+  </div>
+  <div class="form-group">
+    <label>{{localize "DIMANCER_FILES.Companion.Token"}}</label>
+    <div class="form-fields">
+      <input type="password" name="token" value="{{token}}" autocomplete="off">
+      <button type="button" class="icon fa-solid fa-eye" data-action="reveal" data-tooltip="DIMANCER_FILES.Companion.Reveal"></button>
+    </div>
+    <p class="hint">{{localize "DIMANCER_FILES.Companion.TokenHint"}}</p>
+  </div>
+  <div class="form-group">
+    <label>{{localize "DIMANCER_FILES.Companion.Status"}}</label>
+    <div class="form-fields">
+      {{#if status}}
+        {{#if status.ok}}<span class="df-ok"><i class="fa-solid fa-circle-check"></i> {{localize "DIMANCER_FILES.Companion.Connected" version=status.version}}</span>
+        {{else}}<span class="df-bad"><i class="fa-solid fa-circle-xmark"></i> {{status.error}}</span>{{/if}}
+      {{else}}<span>—</span>{{/if}}
+      <button type="button" data-action="test"><i class="fa-solid fa-plug"></i> {{localize "DIMANCER_FILES.Companion.Test"}}</button>
+    </div>
+  </div>
+</section>

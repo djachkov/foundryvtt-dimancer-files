@@ -1,0 +1,58 @@
+<aside class="df-details">
+  {{#if details.single}}
+  {{#with details.single}}
+  <div class="df-preview">
+    {{#if ../details.isImage}}<img src="{{path}}" alt="">
+    {{else if ../details.isVideo}}<video src="{{path}}" controls muted loop preload="metadata"></video>
+    {{else if ../details.isAudio}}<i class="{{icon}} df-big" inert></i><audio src="{{path}}" controls preload="none"></audio>
+    {{else}}<i class="{{icon}} df-big" inert></i>{{/if}}
+  </div>
+  <h3 class="df-title">{{name}}</h3>
+  <dl class="df-facts">
+    <dt>{{localize "DIMANCER_FILES.Sort.type"}}</dt><dd>{{typeLabel}}</dd>
+    {{#if (or ../details.isImage ../details.isVideo)}}<dt>{{localize "DIMANCER_FILES.Dimensions"}}</dt><dd data-dimensions>…</dd>{{/if}}
+    {{#if sizeLabel}}
+    <dt>{{localize "DIMANCER_FILES.Sort.size"}}</dt><dd>{{sizeLabel}}</dd>
+    <dt>{{localize "DIMANCER_FILES.Sort.date"}}</dt><dd>{{dateLabel}}</dd>
+    {{else}}{{#unless isDir}}
+    <dt>{{localize "DIMANCER_FILES.Sort.size"}}</dt><dd data-size-pending="{{path}}">…</dd>
+    {{/unless}}{{/if}}
+    <dt>{{localize "DIMANCER_FILES.Path"}}</dt><dd class="df-path">{{../details.displayPath}}</dd>
+  </dl>
+  {{/with}}
+  <div class="df-actions">
+    <button type="button" class="df-text" data-action="dfOpen"><i class="fa-solid fa-up-right-from-square" inert></i> {{localize "DIMANCER_FILES.Action.Open"}}</button>
+    <button type="button" class="df-text" data-action="dfCopyPath"><i class="fa-solid fa-copy" inert></i> {{localize "DIMANCER_FILES.Action.CopyPath"}}</button>
+    {{#if isGM}}<button type="button" class="df-text" data-action="dfUsages"><i class="fa-solid fa-link" inert></i> {{localize "DIMANCER_FILES.Action.Usages"}}</button>{{/if}}
+    {{#if canChange}}
+    <button type="button" class="df-text" data-action="dfRename"><i class="fa-solid fa-i-cursor" inert></i> {{localize "DIMANCER_FILES.Action.Rename"}}</button>
+    <button type="button" class="df-text" data-action="dfMove"><i class="fa-solid fa-folder-arrow-up" inert></i> {{localize "DIMANCER_FILES.Action.Move"}}</button>
+    <button type="button" class="df-text df-danger" data-action="dfDelete"><i class="fa-solid fa-trash" inert></i> {{localize "DIMANCER_FILES.Action.Delete"}}</button>
+    {{/if}}
+  </div>
+
+  {{else if details.multiple}}
+  <div class="df-preview"><i class="fa-solid fa-layer-group df-big" inert></i></div>
+  <h3 class="df-title">{{localize "DIMANCER_FILES.Selected" n=details.multiple}}</h3>
+  {{#if details.size}}<p class="df-facts">{{details.size}}</p>{{/if}}
+  <div class="df-actions">
+    <button type="button" class="df-text" data-action="dfCopyPath"><i class="fa-solid fa-copy" inert></i> {{localize "DIMANCER_FILES.Action.CopyPath"}}</button>
+    {{#if isGM}}<button type="button" class="df-text" data-action="dfUsages"><i class="fa-solid fa-link" inert></i> {{localize "DIMANCER_FILES.Action.Usages"}}</button>{{/if}}
+    {{#if canChange}}
+    <button type="button" class="df-text" data-action="dfMove"><i class="fa-solid fa-folder-arrow-up" inert></i> {{localize "DIMANCER_FILES.Action.Move"}}</button>
+    <button type="button" class="df-text df-danger" data-action="dfDelete"><i class="fa-solid fa-trash" inert></i> {{localize "DIMANCER_FILES.Action.Delete"}}</button>
+    {{/if}}
+  </div>
+
+  {{else}}
+  <div class="df-preview"><i class="fa-solid fa-folder-open df-big" inert></i></div>
+  <h3 class="df-title">{{#if crumbs.length}}{{#each crumbs}}{{#if @last}}{{label}}{{/if}}{{/each}}{{else}}{{sourceLabel}}{{/if}}</h3>
+  <dl class="df-facts">
+    <dt>{{localize "DIMANCER_FILES.Folders"}}</dt><dd>{{summary.dirs}}</dd>
+    <dt>{{localize "DIMANCER_FILES.Files"}}</dt><dd>{{summary.files}}</dd>
+    {{#if summary.size}}<dt>{{localize "DIMANCER_FILES.Sort.size"}}</dt><dd>{{summary.size}}</dd>{{/if}}
+  </dl>
+  {{#if canChange}}<p class="hint">{{localize "DIMANCER_FILES.Tips"}}</p>
+  {{else if isGM}}<p class="hint">{{localize "DIMANCER_FILES.CompanionTip"}}</p>{{/if}}
+  {{/if}}
+</aside>

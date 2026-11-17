@@ -1,0 +1,75 @@
+<header class="df-toolbar">
+  <div class="df-nav">
+    <button type="button" class="df-icon" data-action="dfUp" {{disabled (not canUp)}} data-tooltip="DIMANCER_FILES.Up" aria-label="{{localize "DIMANCER_FILES.Up"}}">
+      <i class="fa-solid fa-arrow-up" inert></i>
+    </button>
+    <nav class="df-crumbs" aria-label="{{localize "DIMANCER_FILES.Path"}}">
+      <a data-action="dfGo" data-path="" data-drop-dir="">{{sourceLabel}}</a>
+      {{#each crumbs}}<span class="df-sep">/</span><a data-action="dfGo" data-path="{{path}}" data-drop-dir="{{path}}">{{label}}</a>{{/each}}
+    </nav>
+    <button type="button" class="df-icon {{#if isFavorite}}active{{/if}}" data-action="dfFavorite"
+            data-tooltip="{{#if isFavorite}}DIMANCER_FILES.Unfavorite{{else}}DIMANCER_FILES.Favorite{{/if}}">
+      <i class="{{#if isFavorite}}fa-solid{{else}}fa-regular{{/if}} fa-star" inert></i>
+    </button>
+    {{#if canTogglePrivacy}}
+    <button type="button" class="df-icon {{#if isPrivate}}active{{/if}}" data-action="dfPrivacy"
+            data-tooltip="{{#if isPrivate}}DIMANCER_FILES.MakePublic{{else}}DIMANCER_FILES.MakePrivate{{/if}}">
+      <i class="fa-solid {{#if isPrivate}}fa-lock{{else}}fa-lock-open{{/if}}" inert></i>
+    </button>
+    {{/if}}
+    <button type="button" class="df-icon" data-action="dfRefresh" data-tooltip="DIMANCER_FILES.Refresh">
+      <i class="fa-solid fa-rotate" inert></i>
+    </button>
+  </div>
+  <div class="df-controls">
+    <div class="df-search">
+      <i class="fa-solid fa-magnifying-glass" inert></i>
+      <input type="search" name="filter" value="{{filter}}" autocomplete="off"
+             placeholder="{{localize (ifThen searchAll "DIMANCER_FILES.SearchAll" "DIMANCER_FILES.Filter")}}">
+      <button type="button" class="df-icon {{#if searchAll}}active{{/if}}" data-action="dfSearchAll"
+              aria-pressed="{{searchAll}}" data-tooltip="DIMANCER_FILES.SearchSubfolders">
+        <i class="fa-solid fa-folder-tree" inert></i>
+      </button>
+    </div>
+    <div class="df-group">
+      <button type="button" class="df-icon {{#unless isList}}active{{/unless}}" data-action="dfDisplay" data-display="grid" data-tooltip="DIMANCER_FILES.Grid">
+        <i class="fa-solid fa-grip" inert></i>
+      </button>
+      <button type="button" class="df-icon {{#if isList}}active{{/if}}" data-action="dfDisplay" data-display="list" data-tooltip="DIMANCER_FILES.List">
+        <i class="fa-solid fa-list" inert></i>
+      </button>
+    </div>
+    {{#unless isList}}
+    <input class="df-tile" type="range" name="tile" min="64" max="256" step="8" value="{{prefs.tile}}" data-tooltip="DIMANCER_FILES.TileSize">
+    {{/unless}}
+    <div class="df-group df-sort">
+      {{#each sortOptions}}
+      <button type="button" class="df-text {{#if active}}active{{/if}}" data-action="dfSort" data-sort="{{id}}" {{disabled disabled}}
+              {{#if disabled}}data-tooltip="DIMANCER_FILES.NeedsCompanion"{{/if}}>{{localize label}}</button>
+      {{/each}}
+      <button type="button" class="df-icon" data-action="dfSort" data-sort="dir" data-tooltip="DIMANCER_FILES.SortDirection">
+        <i class="fa-solid {{sortIcon}}" inert></i>
+      </button>
+    </div>
+    <div class="df-group">
+      {{#if canCreateFolder}}
+      <button type="button" class="df-icon" data-action="dfNewFolder" data-tooltip="DIMANCER_FILES.NewFolder">
+        <i class="fa-solid fa-folder-plus" inert></i>
+      </button>
+      {{/if}}
+      {{#if canUpload}}
+      <button type="button" class="df-icon" data-action="dfUpload" data-tooltip="DIMANCER_FILES.UploadFiles">
+        <i class="fa-solid fa-file-arrow-up" inert></i>
+      </button>
+      <button type="button" class="df-icon" data-action="dfUploadFolder" data-tooltip="DIMANCER_FILES.UploadFolder">
+        <i class="fa-solid fa-folder-arrow-up" inert></i>
+      </button>
+      <input type="file" name="upload-files" multiple accept="{{accept}}" hidden>
+      <input type="file" name="upload-folder" webkitdirectory hidden>
+      {{/if}}
+      <button type="button" class="df-icon {{#if showDetails}}active{{/if}}" data-action="dfToggleDetails" data-tooltip="DIMANCER_FILES.Details">
+        <i class="fa-solid fa-circle-info" inert></i>
+      </button>
+    </div>
+  </div>
+</header>

@@ -1,0 +1,25 @@
+<footer class="df-footer">
+  {{#if uploads}}
+  <div class="df-progress">
+    <progress value="{{uploads.done}}" max="{{uploads.total}}"></progress>
+    <span>{{localize "DIMANCER_FILES.Upload.Progress" name=uploads.name done=uploads.done total=uploads.total}}</span>
+  </div>
+  {{/if}}
+  {{#if isTiles}}
+  <label class="df-tile-size">
+    {{localize "FILES.TileSize"}} <span class="units">({{localize "MEASUREMENT.Pixels"}})</span>
+    <input type="number" name="tileSize" value="{{tileSize}}" min="1" step="1" placeholder="{{localize "FILES.InPixels"}}">
+  </label>
+  <span class="df-summary"><i class="fa-solid fa-hand-pointer" inert></i> {{localize "DIMANCER_FILES.TilesHint"}}</span>
+  {{else if isManage}}
+  <span class="df-summary">
+    {{localize "DIMANCER_FILES.Summary" dirs=summary.dirs files=summary.files}}{{#if summary.size}} · {{summary.size}}{{/if}}
+  </span>
+  {{else}}
+  <input type="text" name="file" value="{{pickValue}}" placeholder="{{localize "DIMANCER_FILES.PathPlaceholder"}}" autocomplete="off">
+  <button type="button" class="df-text" data-action="dfCancel">{{localize "Cancel"}}</button>
+  <button type="submit" class="df-primary">
+    <i class="fa-solid fa-check" inert></i> {{localize (ifThen isFolderPicker "FILES.SelectFolder" "FILES.SelectFile")}}
+  </button>
+  {{/if}}
+</footer>

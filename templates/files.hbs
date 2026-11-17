@@ -1,0 +1,76 @@
+<section class="df-files {{#if isList}}df-list{{else}}df-grid{{/if}}" tabindex="0">
+  {{#if (eq view "trash")}}
+  <div class="df-trash-head">
+    <h3><i class="fa-solid fa-trash-can" inert></i> {{localize "DIMANCER_FILES.Trash.Title"}}</h3>
+    <p class="hint">{{localize "DIMANCER_FILES.Trash.Hint"}}</p>
+    {{#if trash.length}}
+    <button type="button" class="df-text df-danger" data-action="dfEmptyTrash">
+      <i class="fa-solid fa-dumpster" inert></i> {{localize "DIMANCER_FILES.Trash.Empty"}}
+    </button>
+    {{/if}}
+  </div>
+  {{#if trash.length}}
+  <ol class="df-trash">
+    {{#each trash}}
+    <li class="df-trash-item">
+      <i class="{{icon}}" inert></i>
+      <span class="df-name" data-tooltip="{{path}}">{{name}}</span>
+      <span class="df-folder">{{folder}}</span>
+      <span class="df-size">{{sizeLabel}}</span>
+      <span class="df-date">{{dateLabel}}</span>
+      <button type="button" class="df-text" data-action="dfRestore" data-id="{{id}}">
+        <i class="fa-solid fa-rotate-left" inert></i> {{localize "DIMANCER_FILES.Trash.Restore"}}
+      </button>
+      <button type="button" class="df-icon df-danger" data-action="dfPurge" data-id="{{id}}" data-tooltip="DIMANCER_FILES.Trash.Purge">
+        <i class="fa-solid fa-xmark" inert></i>
+      </button>
+    </li>
+    {{/each}}
+  </ol>
+  {{else}}
+  <p class="df-empty">{{localize "DIMANCER_FILES.Trash.Nothing"}}</p>
+  {{/if}}
+
+  {{else}}
+  {{#if search}}
+  <div class="df-search-note">
+    <i class="fa-solid fa-folder-tree" inert></i>
+    {{localize "DIMANCER_FILES.SearchResults" n=search.items.length query=search.query}}
+    {{#if search.truncated}}<span class="hint">{{localize "DIMANCER_FILES.SearchTruncated"}}</span>{{/if}}
+  </div>
+  {{/if}}
+  {{#if isList}}
+  <div class="df-list-head">
+    <span class="df-name">{{localize "DIMANCER_FILES.Sort.name"}}</span>
+    <span class="df-type">{{localize "DIMANCER_FILES.Sort.type"}}</span>
+    <span class="df-size">{{localize "DIMANCER_FILES.Sort.size"}}</span>
+    <span class="df-date">{{localize "DIMANCER_FILES.Sort.date"}}</span>
+  </div>
+  {{/if}}
+  <ol class="df-entries">
+    {{#each items}}
+    <li class="df-entry {{#if selected}}selected{{/if}} {{#if picked}}picked{{/if}}" data-path="{{path}}" data-dir="{{isDir}}"
+        data-kind="{{kind}}" draggable="true" {{#if isDir}}data-drop-dir="{{path}}"{{/if}} title="{{name}}">
+      <div class="df-thumb">
+        {{#if thumb}}<img src="{{thumb}}" loading="lazy" decoding="async" alt="" draggable="false">
+        {{else}}<i class="{{icon}}" inert></i>{{/if}}
+      </div>
+      <span class="df-name">{{name}}{{#if folder}}<small class="df-folder">{{folder}}</small>{{/if}}</span>
+      <span class="df-type">{{typeLabel}}</span>
+      <span class="df-size">{{sizeLabel}}</span>
+      <span class="df-date">{{dateLabel}}</span>
+      {{#if private}}<i class="fa-solid fa-lock df-private" inert></i>{{/if}}
+    </li>
+    {{/each}}
+  </ol>
+  {{#if more}}
+  <button type="button" class="df-more" data-action="dfMore">{{localize "DIMANCER_FILES.ShowMore" n=more}}</button>
+  {{/if}}
+  {{#if empty}}
+  <p class="df-empty">{{localize (ifThen filter "DIMANCER_FILES.NoMatches" "DIMANCER_FILES.EmptyFolder")}}</p>
+  {{/if}}
+  {{#if canUpload}}{{#unless search}}
+  <p class="df-drop-hint"><i class="fa-solid fa-cloud-arrow-up" inert></i> {{localize "DIMANCER_FILES.DropHint"}}</p>
+  {{/unless}}{{/if}}
+  {{/if}}
+</section>
