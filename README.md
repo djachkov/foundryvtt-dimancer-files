@@ -38,7 +38,7 @@ Requires Foundry VTT v14. It works with any game system.
 
 **With the companion (GM only):**
 
-- **Delete.** Files and folders go to the trash, with Restore. Permanent delete, when the server allows it, asks twice. The dialog warns when documents still use the files.
+- **Delete.** Files and folders go to the trash, with Restore per item and **Restore All** / **Delete All** (in the trash, or by right-clicking Trash in the sidebar), each confirmed first. Delete All needs the server to allow permanent delete. Permanent delete, when the server allows it, asks twice. The dialog warns when documents still use the files.
 - **Folders in the tree:** right-click for New folder inside, Rename, Delete, Copy path and Where is it used?. Double-click a folder to rename it in place (Enter saves, Escape cancels).
 - **Rename** (F2) and **move**, by dragging onto a folder (in the list, the tree or the breadcrumbs) or with Move to…. Folders in the tree drag too, to nest one inside another or move it back out (onto its parent or the drive row). After a rename or move it offers to **update every document** that used the old path: tiles, tokens and their actor data, scene backgrounds, journal pages and their HTML, actor and item images, playlist sounds, settings and so on.
 - **Sort by size and date**, plus fast recursive search.

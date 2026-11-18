@@ -3,12 +3,17 @@
   <div class="df-trash-head">
     <h3><i class="fa-solid fa-trash-can" inert></i> {{localize "DIMANCER_FILES.Trash.Title"}}</h3>
     <p class="hint">{{localize "DIMANCER_FILES.Trash.Hint"}}
+      {{#if trashDays}}{{localize "DIMANCER_FILES.Trash.KeptDays" n=trashDays}}{{/if}}
       {{#unless canPurge}}{{localize "DIMANCER_FILES.Trash.ServerOnly"}}{{/unless}}</p>
-    {{#if trash.length}}{{#if canPurge}}
-    <button type="button" class="df-text df-danger" data-action="dfEmptyTrash">
+    {{#if trash.length}}
+    <button type="button" class="df-text" data-action="dfRestoreAll">
+      <i class="fa-solid fa-rotate-left" inert></i> {{localize "DIMANCER_FILES.Trash.RestoreAll"}}
+    </button>
+    <button type="button" class="df-text df-danger" data-action="dfEmptyTrash"
+            {{#unless canPurge}}disabled data-tooltip="DIMANCER_FILES.Trash.DeleteAllOff"{{/unless}}>
       <i class="fa-solid fa-dumpster" inert></i> {{localize "DIMANCER_FILES.Trash.Empty"}}
     </button>
-    {{/if}}{{/if}}
+    {{/if}}
   </div>
   {{#if trash.length}}
   <ol class="df-trash">

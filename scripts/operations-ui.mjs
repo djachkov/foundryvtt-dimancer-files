@@ -318,11 +318,45 @@ export async function restoreTrash(app, ids) {
   return showTrash(app);
 }
 
+/** The ids of everything in the trash, fresh from the companion; null (after a notice) on failure. */
+async function allTrashIds() {
+  try {
+    return (await companion.request("trash", null)).items.map(t => t.id);
+  } catch (err) {
+    ui.notifications.error(err.message);
+    return null;
+  }
+}
+
+/** Restore everything in the trash, after a confirmation. */
+export async function restoreAllTrash(app) {
+  if ( !app.canChange ) return;
+  const ids = await allTrashIds();
+  if ( !ids ) return;
+  if ( !ids.length ) return ui.notifications.info(loc("DIMANCER_FILES.Trash.Nothing"));
+  const sure = await DialogV2.confirm({
+    window: { title: "DIMANCER_FILES.Trash.RestoreAllTitle", icon: "fa-solid fa-rotate-left" },
+    content: `<p>${loc("DIMANCER_FILES.Trash.RestoreAllConfirm", { n: ids.length })}</p>`,
+    rejectClose: false
+  });
+  if ( !sure ) return;
+  return restoreTrash(app, ids);
+}
+
 /** Delete trash items for good: the given ids, or all with null. */
 export async function purgeTrash(app, ids) {
+  if ( !app.canChange ) return;
+  if ( !companion.policy.permanent ) return ui.notifications.warn(loc("DIMANCER_FILES.Trash.DeleteAllOff"));
+  let count = ids?.length;
+  if ( !ids ) {
+    const all = await allTrashIds();
+    if ( !all ) return;
+    if ( !all.length ) return ui.notifications.info(loc("DIMANCER_FILES.Trash.Nothing"));
+    count = all.length;
+  }
   const sure = await DialogV2.confirm({
     window: { title: "DIMANCER_FILES.Trash.EmptyTitle", icon: "fa-solid fa-dumpster" },
-    content: `<p>${ids ? loc("DIMANCER_FILES.Trash.PurgeConfirm", { n: ids.length }) : loc("DIMANCER_FILES.Trash.EmptyConfirm")}</p>`,
+    content: `<p>${ids ? loc("DIMANCER_FILES.Trash.PurgeConfirm", { n: count }) : loc("DIMANCER_FILES.Trash.EmptyConfirm", { n: count })}</p>`,
     rejectClose: false
   });
   if ( !sure ) return;

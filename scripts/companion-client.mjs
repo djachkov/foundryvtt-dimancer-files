@@ -29,7 +29,7 @@ class CompanionClient {
   /** Whether the service answers and speaks our API: {ok, api?, error?, at}. */
   status = null;
 
-  /** The login, in memory only: {token, expiresAt, version, policy: {permanent, roots}}. */
+  /** The login, in memory only: {token, expiresAt, version, policy: {permanent, roots, trashDays}}. */
   #session = null;
 
   #checking = null;
@@ -70,7 +70,7 @@ class CompanionClient {
 
   /** What the server allows: {permanent, roots}. Nothing permanent until logged in. */
   get policy() {
-    return { permanent: false, roots: [], ...(this.session?.policy ?? {}) };
+    return { permanent: false, roots: [], trashDays: 0, ...(this.session?.policy ?? {}) };
   }
 
   /** Whether file changes can be offered: a GM, logged in, to a service that answered. */

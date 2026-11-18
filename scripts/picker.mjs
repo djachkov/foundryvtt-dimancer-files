@@ -75,6 +75,7 @@ export default class DimancerFilePicker extends CoreFilePicker {
       dfRestore: DimancerFilePicker.#onRestore,
       dfPurge: DimancerFilePicker.#onPurge,
       dfEmptyTrash: DimancerFilePicker.#onEmptyTrash,
+      dfRestoreAll: DimancerFilePicker.#onRestoreAll,
       dfCancel: DimancerFilePicker.#onCancel
     },
     form: { handler: DimancerFilePicker.#onSubmit, submitOnChange: false, closeOnSubmit: false }
@@ -436,6 +437,7 @@ export default class DimancerFilePicker extends CoreFilePicker {
       companion: isGM ? companion.status : null,
       companionLoggedIn: companion.loggedIn,
       canPurge: this.canChange && companion.policy.permanent,
+      trashDays: companion.policy.trashDays,
       items: shown,
       more: Math.max(0, items.length - shown.length),
       empty: !items.length,
@@ -528,6 +530,12 @@ export default class DimancerFilePicker extends CoreFilePicker {
       jQuery: false,
       fixed: true
     });
+    new foundry.applications.ux.ContextMenu(el, ".df-trash-link", [
+      { label: "DIMANCER_FILES.Trash.RestoreAll", icon: "fa-solid fa-rotate-left",
+        visible: () => this.canChange, onClick: () => Ops.restoreAllTrash(this) },
+      { label: "DIMANCER_FILES.Trash.Empty", icon: "fa-solid fa-dumpster", classes: "df-danger",
+        visible: () => this.canChange, onClick: () => Ops.purgeTrash(this, null) }
+    ], { jQuery: false, fixed: true });
     new foundry.applications.ux.ContextMenu(el, ".df-entry", this.#contextEntries(), {
       jQuery: false,
       fixed: true,
@@ -1219,6 +1227,10 @@ export default class DimancerFilePicker extends CoreFilePicker {
 
   static #onPurge(_event, button) {
     return Ops.purgeTrash(this, [button.dataset.id]);
+  }
+
+  static #onRestoreAll() {
+    return Ops.restoreAllTrash(this);
   }
 
   static #onEmptyTrash() {
