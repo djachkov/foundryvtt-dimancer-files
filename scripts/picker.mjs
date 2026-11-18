@@ -522,6 +522,7 @@ export default class DimancerFilePicker extends CoreFilePicker {
     el.addEventListener("dragstart", this.#onDragStart.bind(this));
     el.addEventListener("dragover", this.#onDragOver.bind(this));
     el.addEventListener("dragleave", this.#onDragLeave.bind(this));
+    el.addEventListener("dragend", () => this.#dragPaths = null);
     el.addEventListener("drop", this.#onDrop.bind(this));
     new foundry.applications.ux.ContextMenu(el, ".df-tree .df-node", this.#treeContextEntries(), {
       jQuery: false,
@@ -851,12 +852,36 @@ export default class DimancerFilePicker extends CoreFilePicker {
     return this.constructor.LAST_TILE_SIZE || canvas?.dimensions?.size || 100;
   }
 
+  /**
+   * The paths of the internal drag in progress, so dragover can refuse a folder's own subtree
+   * (dataTransfer contents are unreadable until the drop).
+   */
+  #dragPaths = null;
+
+  /** Whether `dir` is one of the dragged folders or inside one: a folder can't move into itself. */
+  static #insideDragged(dir, paths) {
+    return paths.some(p => (dir === p) || dir.startsWith(`${p}/`));
+  }
+
   #onDragStart(event) {
+    // A folder in the tree drags on its own, without touching the file selection.
+    const node = event.target.closest?.(".df-tree .df-node[data-path]");
+    if ( node ) {
+      const path = node.dataset.path;
+      if ( !path || !this.canChange ) return event.preventDefault();
+      this.#knownDirs.add(path);
+      this.#dragPaths = [path];
+      event.dataTransfer.setData(DRAG_TYPE, JSON.stringify({ source: this.activeSource, paths: [path] }));
+      event.dataTransfer.setData("text/plain", path);
+      event.dataTransfer.effectAllowed = "move";
+      return;
+    }
     const entry = event.target.closest(".df-entry");
     if ( !entry ) return;
     const path = entry.dataset.path;
     if ( !this.selection.has(path) ) this.#selectOnly(path);
     const paths = [...this.selection];
+    this.#dragPaths = paths;
     event.dataTransfer.setData(DRAG_TYPE, JSON.stringify({ source: this.activeSource, paths }));
     event.dataTransfer.effectAllowed = "copyMove";
     const row = this.#rows.get(path);
@@ -894,6 +919,11 @@ export default class DimancerFilePicker extends CoreFilePicker {
     const internal = types.includes(DRAG_TYPE);
     const external = types.includes("Files");
     if ( internal ? !this.canChange : !(external && this.canUpload) ) return;
+    if ( internal && this.#dragPaths && DimancerFilePicker.#insideDragged(dir, this.#dragPaths) ) {
+      this.#dropZone?.classList.remove("df-drop");
+      this.#dropZone = null;
+      return;
+    }
     event.preventDefault();
     event.dataTransfer.dropEffect = internal ? "move" : "copy";
     const zone = event.target.closest("[data-drop-dir]") ?? event.target.closest(".df-files");
@@ -917,6 +947,7 @@ export default class DimancerFilePicker extends CoreFilePicker {
     const dir = this.#dropDir(event);
     this.#dropZone?.classList.remove("df-drop");
     this.#dropZone = null;
+    this.#dragPaths = null;
     if ( dir === null ) return;
     const internal = event.dataTransfer.getData(DRAG_TYPE);
     if ( internal ) {
@@ -924,7 +955,7 @@ export default class DimancerFilePicker extends CoreFilePicker {
       event.stopPropagation();
       const { source, paths } = JSON.parse(internal);
       if ( (source !== this.activeSource) || !this.canChange ) return;
-      const moving = paths.filter(p => (p !== dir) && (L.dirName(p) !== dir));
+      const moving = paths.filter(p => !DimancerFilePicker.#insideDragged(dir, [p]) && (L.dirName(p) !== dir));
       if ( moving.length ) await Ops.moveEntries(this, moving, dir);
       return;
     }

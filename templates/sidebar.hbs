@@ -34,7 +34,8 @@
     </div>
     {{#each tree}}
     <div class="df-node {{#if active}}active{{/if}}" style="padding-left: calc(0.75rem + {{indent}}px)"
-         data-action="dfGo" data-path="{{path}}" data-drop-dir="{{path}}" data-tooltip="{{name}}">
+         data-action="dfGo" data-path="{{path}}" data-drop-dir="{{path}}" data-tooltip="{{name}}"
+         {{#if @root.canChange}}draggable="true"{{/if}}>
       <a class="df-caret {{#if leaf}}leaf{{/if}}" data-action="dfTreeToggle" data-path="{{path}}">
         <i class="fa-solid {{#if expanded}}fa-caret-down{{else}}fa-caret-right{{/if}}" inert></i>
       </a>
