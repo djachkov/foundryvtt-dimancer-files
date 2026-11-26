@@ -57,7 +57,7 @@ Foundry modules run only in the browser, and the Foundry server has no delete, r
 its only file actions are browse, create folder and configure path. Those three come from the
 **Dimancer's Files companion**, a small Node service you install on the server yourself.
 
-**[djachkov/foundryvtt-dimancer-files-companion](https://github.com/djachkov/foundryvtt-dimancer-files-companion)**
+**[djachkov/dimancer-files-companion](https://github.com/djachkov/dimancer-files-companion)**
 covers installing it, putting it behind your reverse proxy, running it as a hardened service, and what
 it can and can't do.
 

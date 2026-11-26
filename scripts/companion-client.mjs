@@ -14,7 +14,7 @@ const CHECK_EVERY = 60_000;
 export const COMPANION_API = [2];
 
 /** Repository of the separately installed companion service. */
-export const COMPANION_URL = "https://github.com/djachkov/foundryvtt-dimancer-files-companion";
+export const COMPANION_URL = "https://github.com/djachkov/dimancer-files-companion";
 
 /** A health answer as a status: refuses a companion whose API this module doesn't know. */
 function healthStatus(r) {

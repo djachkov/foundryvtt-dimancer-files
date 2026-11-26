@@ -1,7 +1,7 @@
 {
   "id": "dimancer_files",
   "title": "Dimancer's Files",
-  "description": "A better file browser that replaces Foundry's File Picker everywhere: folder tree, grid and list views, multi-select, folder uploads, previews and sizes. With the bundled companion running next to the server, the GM can also delete (to a trash), rename and move files and folders, and fix the documents that use them.",
+  "description": "A better file browser that replaces Foundry's File Picker everywhere: folder tree, grid and list views, multi-select, folder uploads, previews and sizes. The GM can convert images to WebP. With the separately installed companion service running on the server, the GM can also delete (to a trash), rename and move files and folders, and fix the documents that use them.",
   "version": "0.1.0",
   "authors": [
     {
