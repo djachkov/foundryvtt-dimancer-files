@@ -59,7 +59,9 @@
       "Rename": "Rename",
       "Move": "Move to…",
       "Usages": "Where is it used?",
-      "Delete": "Delete"
+      "Delete": "Delete",
+      "Convert": "Convert to WebP",
+      "ConvertFolder": "Convert images to WebP"
     },
     "Delete": {
       "Title": "Delete",
@@ -101,7 +103,7 @@
       "RestoreAll": "Restore All",
       "RestoreAllTitle": "Restore all",
       "RestoreAllConfirm": "Put all {n} item(s) in the trash back where they were?",
-      "DeleteAllOff": "This server doesn't allow deleting for good from Foundry (start the companion with ALLOW_PERMANENT=1), or empty the trash on the server: node server.mjs trash empty",
+      "DeleteAllOff": "This server doesn't allow deleting for good from Foundry (start the companion with ALLOW_PERMANENT=1), or empty the trash on the server: dimancer-files-companion trash empty",
       "Nothing": "The trash is empty.",
       "Restore": "Restore",
       "Purge": "Delete for good",
@@ -111,7 +113,7 @@
       "EmptyConfirm": "Delete all {n} item(s) in the trash for good? This can't be undone.",
       "PurgeConfirm": "Delete {n} item(s) from the trash for good?",
       "Purged": "Deleted {n} item(s) for good.",
-      "ServerOnly": "This server only empties the trash from its command line: node server.mjs trash empty"
+      "ServerOnly": "This server only empties the trash from its command line: dimancer-files-companion trash empty"
     },
     "Upload": {
       "Rejected": "Skipped {n} file(s) of a type that can't be uploaded here: {list}",
@@ -194,6 +196,34 @@
       }
     },
     "NewFolderInside": "New folder inside",
-    "TilesHint": "Drag an image or video onto the canvas to place it as a tile (Shift: no snapping, Alt: hidden)."
+    "TilesHint": "Drag an image or video onto the canvas to place it as a tile (Shift: no snapping, Alt: hidden).",
+    "Convert": {
+      "Title": "Convert to WebP",
+      "Prompt": "Convert {n} image(s) to WebP? Each one is saved as a .webp next to the original.",
+      "Truncated": "Stopped looking after {n} images or 500 folders. Run it again on the subfolders for the rest.",
+      "Quality": "Quality",
+      "QualityHint": "85 is a good default for maps, tokens and portraits: hard to tell from the original and usually much smaller. Lower is smaller and softer.",
+      "Rewrite": "Point these documents at the WebP files",
+      "Trash": "Move the originals to the trash",
+      "TrashHint": "Only this world's documents are updated (and compendiums, when “Check compendiums” is on). Keep the originals if other worlds use these files.",
+      "KeepHint": "The originals stay next to the WebP files. Log in to the companion to move them to the trash instead.",
+      "Skips": "Skipped: animated GIFs and PNGs, images whose WebP wouldn't be smaller, and images that already have a .webp of the same name. Nothing is overwritten.",
+      "Button": "Convert",
+      "Progress": "Converting {name} ({done}/{total})",
+      "Stop": "Stop",
+      "Stopped": "Stopped after {n} of {total} images.",
+      "Converted": "Converted {n} image(s): {before} → {after}, {percent}% smaller.",
+      "NoneConverted": "Nothing was converted.",
+      "Larger": "{n} kept as they are: the WebP wasn't smaller.",
+      "Animated": "{n} skipped: animated (a WebP made here would keep only the first frame).",
+      "Clashes": "{n} skipped: a .webp with that name already exists.",
+      "Failed": "{n} failed:",
+      "OriginalsKept": "The originals are still in place.",
+      "OriginalsTrashed": "Moved {n} original(s) to the trash.",
+      "OriginalsKeptInUse": "The originals are still in place, because some documents couldn't be updated.",
+      "Unsupported": "This browser can't write WebP images (Safari can't). Use Chrome, Edge, Firefox or the Foundry desktop app.",
+      "Nothing": "No images to convert here. Converts {list}; the modules and systems folders are skipped.",
+      "UploadFailed": "The upload failed."
+    }
   }
 }

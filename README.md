@@ -35,6 +35,14 @@ Requires Foundry VTT v14. It works with any game system.
 - **Manager mode.** A **File Manager** button in the sidebar's tab strip (always visible, even with the sidebar collapsed), in the Settings sidebar, or Ctrl+Shift+F.
 - **Where is it used?** Lists the documents that reference a file or folder: world documents, and compendiums if you turn that on.
 - The window header's ⋮ menu always has **Open Foundry's file picker**.
+- **Convert to WebP (GM).** Right-click images, or a folder in the tree (it includes subfolders), or use the
+  details panel. Each PNG, JPEG, GIF or BMP is re-encoded in your browser at the quality you pick (85 by
+  default) and saved as a `.webp` next to it through Foundry's own upload. The documents that use the
+  originals are pointed at the WebP files. A summary shows what was saved. Skipped: animated GIFs and PNGs
+  (a canvas keeps only the first frame), images whose WebP wouldn't be smaller, the `modules` and `systems`
+  folders, and names that already have a `.webp`. Nothing is overwritten. With the companion logged in,
+  the originals go to its trash; without it they stay where they are. It needs a browser that can write
+  WebP: Chrome, Edge, Firefox and the Foundry desktop app can; Safari can't.
 
 **With the companion (GM only):**
 
@@ -74,6 +82,7 @@ node --test test/*.test.mjs
 The tests cover:
 
 - usage matching and rewriting
+- WebP conversion planning: which files qualify, name clashes, spotting animated GIFs and PNGs
 - listing, sorting and filtering
 - which picker kinds map to which "replace" setting
 

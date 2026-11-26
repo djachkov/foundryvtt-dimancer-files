@@ -4,10 +4,12 @@
  * Two modes: "pick" (opened by any image/audio/file field: returns a path, keeping core's contract
  * of field + change event + callback) and "manage" (a standalone window). Browsing, uploads and
  * folder creation go through core's static API, so they work for everyone. Delete, rename, move,
- * sizes and the trash need the companion service and a GM.
+ * sizes and the trash need the companion service and a GM. Converting to WebP (convert.mjs) runs in the
+ * GM's browser and uses the companion only to trash the originals.
  */
 import { PAGE_SIZE, TEMPLATES } from "./constants.mjs";
 import { companion } from "./companion-client.mjs";
+import { canConvert, convertToWebp } from "./convert.mjs";
 import * as L from "./listing.mjs";
 import * as Ops from "./operations-ui.mjs";
 import { replaces, saveUiPrefs, uiPrefs } from "./settings.mjs";
@@ -71,6 +73,9 @@ export default class DimancerFilePicker extends CoreFilePicker {
       dfRename: DimancerFilePicker.#onRename,
       dfMove: DimancerFilePicker.#onMove,
       dfUsages: DimancerFilePicker.#onUsages,
+      dfConvert: DimancerFilePicker.#onConvert,
+      dfConvertFolder: DimancerFilePicker.#onConvertFolder,
+      dfStopConvert: DimancerFilePicker.#onStopConvert,
       dfTrash: DimancerFilePicker.#onTrash,
       dfRestore: DimancerFilePicker.#onRestore,
       dfPurge: DimancerFilePicker.#onPurge,
@@ -133,6 +138,9 @@ export default class DimancerFilePicker extends CoreFilePicker {
 
   /** Upload progress {done, total, name}, or null. */
   uploads = null;
+
+  /** Set by the footer's Stop button while a WebP conversion runs. */
+  convertStop = false;
 
   /** Paths in display order, for ranges and arrow keys. */
   #order = [];
@@ -434,6 +442,9 @@ export default class DimancerFilePicker extends CoreFilePicker {
       canTogglePrivacy: isGM && (this.activeSource !== "public"),
       isPrivate: !!this.result?.private,
       canChange: this.canChange,
+      canConvert: (this.view === "files") && canConvert(this, [...this.selection]),
+      canConvertFolder: (this.view === "files") && !this.searchResults && !!this.target
+        && canConvert(this, [this.target]),
       companion: isGM ? companion.status : null,
       companionLoggedIn: companion.loggedIn,
       canPurge: this.canChange && companion.policy.permanent,
@@ -995,6 +1006,8 @@ export default class DimancerFilePicker extends CoreFilePicker {
         visible: el => !!path(el), onClick: (_e, el) => Ops.copyPaths([path(el)]) },
       { label: "DIMANCER_FILES.Action.Usages", icon: "fa-solid fa-link",
         visible: el => game.user.isGM && !!path(el), onClick: (_e, el) => Ops.showUsages(this, [path(el)]) },
+      { label: "DIMANCER_FILES.Action.ConvertFolder", icon: "fa-solid fa-file-image",
+        visible: el => !!path(el) && canConvert(this, [path(el)]), onClick: (_e, el) => convertToWebp(this, [path(el)]) },
       { label: "DIMANCER_FILES.Action.Delete", icon: "fa-solid fa-trash", classes: "df-danger",
         visible: el => this.canChange && !!path(el), onClick: (_e, el) => Ops.deleteEntries(this, [path(el)]) }
     ];
@@ -1021,6 +1034,8 @@ export default class DimancerFilePicker extends CoreFilePicker {
         visible: () => this.canChange, onClick: () => Ops.moveEntries(this, [...this.selection]) },
       { label: "DIMANCER_FILES.Action.Usages", icon: "fa-solid fa-link",
         visible: () => game.user.isGM, onClick: () => Ops.showUsages(this, [...this.selection]) },
+      { label: "DIMANCER_FILES.Action.Convert", icon: "fa-solid fa-file-image",
+        visible: () => canConvert(this, [...this.selection]), onClick: () => convertToWebp(this, [...this.selection]) },
       { label: "DIMANCER_FILES.Action.Delete", icon: "fa-solid fa-trash", classes: "df-danger",
         visible: () => this.canChange, onClick: () => Ops.deleteEntries(this, [...this.selection]) }
     ];
@@ -1215,6 +1230,18 @@ export default class DimancerFilePicker extends CoreFilePicker {
 
   static #onUsages() {
     return Ops.showUsages(this, [...this.selection]);
+  }
+
+  static #onConvert() {
+    return convertToWebp(this, [...this.selection]);
+  }
+
+  static #onConvertFolder() {
+    return convertToWebp(this, [this.target]);
+  }
+
+  static #onStopConvert() {
+    this.convertStop = true;
   }
 
   static #onTrash() {

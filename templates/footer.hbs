@@ -2,7 +2,8 @@
   {{#if uploads}}
   <div class="df-progress">
     <progress value="{{uploads.done}}" max="{{uploads.total}}"></progress>
-    <span>{{localize "DIMANCER_FILES.Upload.Progress" name=uploads.name done=uploads.done total=uploads.total}}</span>
+    <span>{{localize (ifThen uploads.convert "DIMANCER_FILES.Convert.Progress" "DIMANCER_FILES.Upload.Progress") name=uploads.name done=uploads.done total=uploads.total}}</span>
+    {{#if uploads.convert}}<button type="button" class="df-text" data-action="dfStopConvert"><i class="fa-solid fa-stop" inert></i> {{localize "DIMANCER_FILES.Convert.Stop"}}</button>{{/if}}
   </div>
   {{/if}}
   {{#if isTiles}}

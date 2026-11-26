@@ -24,6 +24,7 @@
     <button type="button" class="df-text" data-action="dfOpen"><i class="fa-solid fa-up-right-from-square" inert></i> {{localize "DIMANCER_FILES.Action.Open"}}</button>
     <button type="button" class="df-text" data-action="dfCopyPath"><i class="fa-solid fa-copy" inert></i> {{localize "DIMANCER_FILES.Action.CopyPath"}}</button>
     {{#if isGM}}<button type="button" class="df-text" data-action="dfUsages"><i class="fa-solid fa-link" inert></i> {{localize "DIMANCER_FILES.Action.Usages"}}</button>{{/if}}
+    {{#if canConvert}}<button type="button" class="df-text" data-action="dfConvert"><i class="fa-solid fa-file-image" inert></i> {{localize "DIMANCER_FILES.Action.Convert"}}</button>{{/if}}
     {{#if canChange}}
     <button type="button" class="df-text" data-action="dfRename"><i class="fa-solid fa-i-cursor" inert></i> {{localize "DIMANCER_FILES.Action.Rename"}}</button>
     <button type="button" class="df-text" data-action="dfMove"><i class="fa-solid fa-folder-arrow-up" inert></i> {{localize "DIMANCER_FILES.Action.Move"}}</button>
@@ -38,6 +39,7 @@
   <div class="df-actions">
     <button type="button" class="df-text" data-action="dfCopyPath"><i class="fa-solid fa-copy" inert></i> {{localize "DIMANCER_FILES.Action.CopyPath"}}</button>
     {{#if isGM}}<button type="button" class="df-text" data-action="dfUsages"><i class="fa-solid fa-link" inert></i> {{localize "DIMANCER_FILES.Action.Usages"}}</button>{{/if}}
+    {{#if canConvert}}<button type="button" class="df-text" data-action="dfConvert"><i class="fa-solid fa-file-image" inert></i> {{localize "DIMANCER_FILES.Action.Convert"}}</button>{{/if}}
     {{#if canChange}}
     <button type="button" class="df-text" data-action="dfMove"><i class="fa-solid fa-folder-arrow-up" inert></i> {{localize "DIMANCER_FILES.Action.Move"}}</button>
     <button type="button" class="df-text df-danger" data-action="dfDelete"><i class="fa-solid fa-trash" inert></i> {{localize "DIMANCER_FILES.Action.Delete"}}</button>
@@ -52,6 +54,11 @@
     <dt>{{localize "DIMANCER_FILES.Files"}}</dt><dd>{{summary.files}}</dd>
     {{#if summary.size}}<dt>{{localize "DIMANCER_FILES.Sort.size"}}</dt><dd>{{summary.size}}</dd>{{/if}}
   </dl>
+  {{#if canConvertFolder}}
+  <div class="df-actions">
+    <button type="button" class="df-text" data-action="dfConvertFolder"><i class="fa-solid fa-file-image" inert></i> {{localize "DIMANCER_FILES.Action.ConvertFolder"}}</button>
+  </div>
+  {{/if}}
   {{#if canChange}}<p class="hint">{{localize "DIMANCER_FILES.Tips"}}</p>
   {{else if isGM}}<p class="hint">{{localize "DIMANCER_FILES.CompanionTip"}}</p>{{/if}}
   {{/if}}

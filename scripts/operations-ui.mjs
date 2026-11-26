@@ -19,13 +19,13 @@ const LIST_MAX = 12;
 /*  Shared bits                                 */
 /* -------------------------------------------- */
 
-function nameList(paths) {
+export function nameList(paths) {
   const shown = paths.slice(0, LIST_MAX).map(p => `<li>${esc(decodeURIComponent(p))}</li>`).join("");
   const more = paths.length > LIST_MAX ? `<li class="df-more">${loc("DIMANCER_FILES.AndMore", { n: paths.length - LIST_MAX })}</li>` : "";
   return `<ul class="df-dialog-list">${shown}${more}</ul>`;
 }
 
-async function usageList(usages) {
+export async function usageList(usages) {
   const TextEditor = foundry.applications.ux.TextEditor.implementation;
   const shown = await Promise.all(usages.slice(0, LIST_MAX).map(async u => {
     const link = await TextEditor.enrichHTML(`@UUID[${u.uuid}]{${u.label.replace(/[{}\]]/g, "")}}`);
@@ -35,7 +35,7 @@ async function usageList(usages) {
   return `<ul class="df-dialog-list df-usages">${shown.join("")}${more}</ul>`;
 }
 
-async function scan(targets) {
+export async function scan(targets) {
   try {
     return await findUsages(targets, { compendia: setting(SETTINGS.scanCompendia) });
   } catch (err) {
@@ -45,19 +45,21 @@ async function scan(targets) {
 }
 
 /** Report per-entry failures from a companion batch; returns the successes. */
-function report(results, key = "path") {
+export function report(results, key = "path") {
   const failed = results.filter(r => r.error);
   for ( const f of failed.slice(0, 5) ) ui.notifications.error(`${baseName(f[key] ?? "")}: ${f.error}`);
   if ( failed.length > 5 ) ui.notifications.error(loc("DIMANCER_FILES.MoreFailed", { n: failed.length - 5 }));
   return results.filter(r => !r.error);
 }
 
-async function rewrite(moves) {
-  if ( !moves.length ) return;
+/** Point documents at new paths, with notices; returns rewriteReferences' result. */
+export async function rewrite(moves) {
+  if ( !moves.length ) return { documents: 0, updated: 0, failed: [], locked: [] };
   const result = await rewriteReferences(moves, { compendia: setting(SETTINGS.scanCompendia) });
   if ( result.updated ) ui.notifications.info(loc("DIMANCER_FILES.Rewrite.Done", { n: result.updated }));
   if ( result.locked.length ) ui.notifications.warn(loc("DIMANCER_FILES.Rewrite.Locked", { list: result.locked.join(", ") }));
   if ( result.failed.length ) ui.notifications.error(loc("DIMANCER_FILES.Rewrite.Failed", { list: result.failed.join(", ") }));
+  return result;
 }
 
 export function copyPaths(paths) {
