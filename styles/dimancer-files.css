@@ -397,3 +397,31 @@
 .dimancer-files .df-tile-size { display: flex; align-items: center; gap: 0.4rem; flex: none; white-space: nowrap; }
 .dimancer-files .df-tile-size .units { opacity: 0.65; }
 .dimancer-files .df-tile-size input { width: 80px; height: 28px; }
+
+/* ---------- Broken links ---------- */
+
+.dimancer-files-broken .window-content { padding: 0; }
+.df-broken { display: flex; flex-direction: column; height: 100%; min-height: 0; }
+.df-broken-head { display: flex; gap: 0.75rem; align-items: flex-start; padding: 0.6rem 0.8rem 0.2rem; }
+.df-broken-head .hint { flex: 1; margin: 0; }
+.df-broken-head button { flex: none; width: auto; }
+.df-broken-status, .df-broken-summary, .df-broken-none { margin: 0.3rem 0.8rem; }
+.df-broken-none i { color: #4caf50; }
+.df-warning-text { color: #d9534f; }
+.df-broken-list { flex: 1; min-height: 0; overflow-y: auto; margin: 0.2rem 0; padding: 0 0.8rem; list-style: none; }
+.df-broken-row {
+  display: flex; gap: 0.6rem; align-items: flex-start; padding: 0.5rem 0;
+  border-bottom: 1px solid color-mix(in srgb, currentColor 15%, transparent);
+}
+.df-broken-row > input { margin-top: 0.2rem; flex: none; }
+.df-broken-info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 0.25rem; }
+.df-broken-path { font-weight: bold; word-break: break-all; }
+.df-broken-docs { font-size: var(--font-size-12, 12px); display: flex; flex-wrap: wrap; gap: 0.2rem 0.4rem; }
+.df-broken-choice { display: flex; gap: 0.4rem; align-items: center; }
+.df-broken-choice select { flex: 1; min-width: 0; }
+.df-broken-choice button { flex: none; width: auto; }
+.df-broken-foot {
+  display: flex; gap: 0.5rem; justify-content: flex-end; padding: 0.5rem 0.8rem;
+  border-top: 1px solid color-mix(in srgb, currentColor 15%, transparent);
+}
+.df-broken-foot button { width: auto; }

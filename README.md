@@ -35,6 +35,16 @@ Requires Foundry VTT v14. It works with any game system.
 - **Manager mode.** A **File Manager** button in the sidebar's tab strip (always visible, even with the sidebar collapsed), in the Settings sidebar, or Ctrl+Shift+F.
 - **Where is it used?** Lists the documents that reference a file or folder: world documents, and compendiums if you turn that on.
 - The window header's ⋮ menu always has **Open Foundry's file picker**.
+- **Broken links (GM).** Finds documents in the open world that point at files which no longer exist,
+  and suggests the file each one became: the same name in a new format in the same folder (a WebP
+  conversion), the same path in another letter case, the same name in another folder (moved, or its folder
+  renamed), or another folder and format. A suggestion is preselected only when it clearly wins; otherwise
+  pick one, or **Choose…** a file by hand. **Fix** updates the documents, the same way a rename does.
+  Renames, moves and conversions only update the world they're done in, so **run this in your other worlds
+  afterwards**. Open it from the file manager's ⋮ menu or **Game Settings → Dimancer's Files → Find broken
+  links**. It reads world documents, and compendiums when "Check compendiums" is on. Links to external sites,
+  wildcard token images and template strings are ignored. A path counts as broken only when Foundry answers
+  404 for it.
 - **Convert to WebP (GM).** Right-click images, or a folder in the tree (it includes subfolders), or use the
   details panel. Each PNG, JPEG, GIF or BMP is re-encoded in your browser at the quality you pick (85 by
   default) and saved as a `.webp` next to it through Foundry's own upload. The documents that use the
@@ -83,6 +93,7 @@ The tests cover:
 
 - usage matching and rewriting
 - WebP conversion planning: which files qualify, name clashes, spotting animated GIFs and PNGs
+- broken links: pulling paths out of document data and HTML, and ranking suggestions
 - listing, sorting and filtering
 - which picker kinds map to which "replace" setting
 

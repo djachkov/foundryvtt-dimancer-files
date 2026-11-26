@@ -15,7 +15,7 @@ function worldCollections() {
  * Documents to scan: the world, and with `compendia` every compendium's documents too.
  * @param {{compendia?: boolean}} [options]
  */
-async function documents({ compendia = false } = {}) {
+export async function documents({ compendia = false } = {}) {
   const docs = [];
   for ( const c of worldCollections() ) docs.push(...c.contents);
   if ( compendia ) {

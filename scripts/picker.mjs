@@ -9,6 +9,7 @@
  */
 import { PAGE_SIZE, TEMPLATES } from "./constants.mjs";
 import { companion } from "./companion-client.mjs";
+import BrokenLinks from "./broken.mjs";
 import { canConvert, convertToWebp } from "./convert.mjs";
 import * as L from "./listing.mjs";
 import * as Ops from "./operations-ui.mjs";
@@ -43,6 +44,8 @@ export default class DimancerFilePicker extends CoreFilePicker {
       controls: [
         { icon: "fa-solid fa-file-magnifying-glass", label: "DIMANCER_FILES.CorePicker", action: "dfCore" },
         { icon: "fa-solid fa-plug", label: "DIMANCER_FILES.Companion.Title", action: "dfCompanion",
+          visible: () => game.user.isGM },
+        { icon: "fa-solid fa-link-slash", label: "DIMANCER_FILES.Broken.Title", action: "dfBroken",
           visible: () => game.user.isGM }
       ]
     },
@@ -50,6 +53,7 @@ export default class DimancerFilePicker extends CoreFilePicker {
     actions: {
       dfCore: DimancerFilePicker.#onCore,
       dfCompanion: DimancerFilePicker.#onCompanion,
+      dfBroken: () => BrokenLinks.open(),
       dfSource: DimancerFilePicker.#onSource,
       dfTreeToggle: DimancerFilePicker.#onTreeToggle,
       dfGo: DimancerFilePicker.#onGo,

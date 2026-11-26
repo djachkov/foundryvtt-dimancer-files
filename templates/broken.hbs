@@ -1,0 +1,54 @@
+<div class="df-broken">
+  <header class="df-broken-head">
+    <p class="hint">{{localize "DIMANCER_FILES.Broken.Intro"}}{{#if worldOnly}} {{localize "DIMANCER_FILES.WorldOnly"}}{{/if}}</p>
+    <button type="button" data-action="scan" {{#if busy}}disabled{{/if}}>
+      <i class="fa-solid fa-magnifying-glass" inert></i> {{localize (ifThen scanned "DIMANCER_FILES.Broken.Rescan" "DIMANCER_FILES.Broken.Scan")}}
+    </button>
+  </header>
+
+  {{#if status}}
+  <p class="df-broken-status">{{#if busy}}<i class="fa-solid fa-spinner fa-spin" inert></i> {{/if}}{{status}}</p>
+  {{/if}}
+
+  {{#if rows}}
+  <p class="df-broken-summary">{{summary}}{{#if truncated}} <span class="df-warning-text">{{localize "DIMANCER_FILES.Broken.Truncated"}}</span>{{/if}}</p>
+  {{#if rows.length}}
+  <ol class="df-broken-list">
+    {{#each rows}}
+    <li class="df-broken-row" data-index="{{index}}">
+      <input type="checkbox" data-fix {{checked fix}} {{#unless choice}}disabled{{/unless}}
+        aria-label="{{localize "DIMANCER_FILES.Broken.FixThis"}}">
+      <div class="df-broken-info">
+        <div class="df-broken-path"><i class="{{icon}}" inert></i> <span>{{path}}</span></div>
+        <div class="df-broken-docs">{{{docsHTML}}}</div>
+        <div class="df-broken-choice">
+          <i class="fa-solid fa-arrow-turn-up fa-rotate-90" inert></i>
+          <select data-choice>
+            <option value="">{{localize (ifThen none "DIMANCER_FILES.Broken.NoMatch" "DIMANCER_FILES.Broken.Leave")}}</option>
+            {{#each options}}<option value="{{value}}" {{#if selected}}selected{{/if}}>{{label}}</option>{{/each}}
+          </select>
+          <button type="button" class="df-text" data-action="pick" data-index="{{index}}">
+            <i class="fa-solid fa-folder-open" inert></i> {{localize "DIMANCER_FILES.Broken.Choose"}}
+          </button>
+        </div>
+      </div>
+    </li>
+    {{/each}}
+  </ol>
+  {{else}}
+  <p class="df-broken-none"><i class="fa-solid fa-circle-check" inert></i> {{localize "DIMANCER_FILES.Broken.None"}}</p>
+  {{/if}}
+  {{/if}}
+
+  <footer class="df-broken-foot">
+    {{#if anyChoice}}
+    <button type="button" class="df-text" data-action="all" {{#if busy}}disabled{{/if}}>
+      <i class="fa-solid {{#if allChecked}}fa-square-minus{{else}}fa-square-check{{/if}}" inert></i>
+      {{localize (ifThen allChecked "DIMANCER_FILES.Broken.SelectNone" "DIMANCER_FILES.Broken.SelectAll")}}
+    </button>
+    {{/if}}
+    <button type="button" class="df-primary" data-action="fix" {{#unless fixCount}}disabled{{/unless}} {{#if busy}}disabled{{/if}}>
+      <i class="fa-solid fa-wrench" inert></i> {{localize "DIMANCER_FILES.Broken.Fix" n=fixCount}}
+    </button>
+  </footer>
+</div>

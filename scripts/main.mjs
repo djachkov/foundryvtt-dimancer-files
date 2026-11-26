@@ -1,4 +1,5 @@
 import { MODULE_ID, TEMPLATES } from "./constants.mjs";
+import BrokenLinks from "./broken.mjs";
 import { companion } from "./companion-client.mjs";
 import CompanionConfig from "./companion-config.mjs";
 import DimancerFilePicker from "./picker.mjs";
@@ -13,6 +14,14 @@ Hooks.once("init", () => {
     hint: "DIMANCER_FILES.Companion.Hint",
     icon: "fa-solid fa-plug",
     type: CompanionConfig,
+    restricted: true
+  });
+  game.settings.registerMenu(MODULE_ID, "brokenMenu", {
+    name: "DIMANCER_FILES.Broken.Title",
+    label: "DIMANCER_FILES.Broken.Open",
+    hint: "DIMANCER_FILES.Broken.Hint",
+    icon: "fa-solid fa-link-slash",
+    type: BrokenLinks,
     restricted: true
   });
   game.keybindings.register(MODULE_ID, "open", {
@@ -43,7 +52,9 @@ Hooks.once("ready", () => {
     /** Documents using files: findUsages([{path, isDir}]). */
     findUsages,
     /** Point references at new paths: rewriteReferences([{from, to, isDir}]). */
-    rewriteReferences
+    rewriteReferences,
+    /** Open the broken links window, which scans this world for links to missing files. */
+    findBrokenLinks: () => BrokenLinks.open()
   };
 });
 

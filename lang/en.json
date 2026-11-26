@@ -205,7 +205,7 @@
       "QualityHint": "85 is a good default for maps, tokens and portraits: hard to tell from the original and usually much smaller. Lower is smaller and softer.",
       "Rewrite": "Point these documents at the WebP files",
       "Trash": "Move the originals to the trash",
-      "TrashHint": "Only this world's documents are updated (and compendiums, when “Check compendiums” is on). Keep the originals if other worlds use these files.",
+      "TrashHint": "Only this world's documents are updated (and compendiums, when “Check compendiums” is on). If other worlds use these files, open them afterwards and run Broken links (file manager ⋮ menu, or the module settings): it finds the WebP versions.",
       "KeepHint": "The originals stay next to the WebP files. Log in to the companion to move them to the trash instead.",
       "Skips": "Skipped: animated GIFs and PNGs, images whose WebP wouldn't be smaller, and images that already have a .webp of the same name. Nothing is overwritten.",
       "Button": "Convert",
@@ -224,6 +224,36 @@
       "Unsupported": "This browser can't write WebP images (Safari can't). Use Chrome, Edge, Firefox or the Foundry desktop app.",
       "Nothing": "No images to convert here. Converts {list}; the modules and systems folders are skipped.",
       "UploadFailed": "The upload failed."
+    },
+    "Broken": {
+      "Title": "Broken links",
+      "Open": "Find broken links",
+      "Hint": "Find documents in this world that point at files which no longer exist, and fix them. Use it in other worlds after moving, renaming or converting files: the file manager only updates the world it runs in.",
+      "Intro": "Documents in this world that point at missing files, with the file each one probably became: converted to another format, moved, its folder renamed, or its name re-cased. Check the suggestions, then fix.",
+      "Scan": "Scan",
+      "Rescan": "Scan again",
+      "Reading": "Reading documents…",
+      "Listing": "Listing files ({n} folders)…",
+      "Checking": "Checking paths ({done}/{total})…",
+      "Fixing": "Updating documents for {n} file(s)…",
+      "Summary": "{broken} missing file(s) among {references} referenced; suggestions for {suggested}.",
+      "Truncated": "Stopped listing files after 5000 folders: some suggestions may be missing.",
+      "None": "No broken links: every file this world refers to exists.",
+      "Leave": "Leave as it is",
+      "NoMatch": "No match found: choose a file, or leave it",
+      "Choose": "Choose…",
+      "FixThis": "Fix this one",
+      "Fix": "Fix {n}",
+      "SelectAll": "Select all",
+      "SelectNone": "Select none",
+      "GMOnly": "Only a GM can look for broken links.",
+      "Reason": {
+        "converted": "same name, new format",
+        "case": "same name, other letter case",
+        "moved": "same name, other folder",
+        "movedConverted": "other folder and format",
+        "chosen": "chosen"
+      }
     }
   }
 }
